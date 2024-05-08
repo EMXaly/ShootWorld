@@ -1,0 +1,28 @@
+name: ShootWorld
+version: '${project.version}'
+main: me.emxion.shootworld.ShootWorld
+api-version: '1.20'
+commands:
+  SWGive:
+    description: Give item from the plugin ShootWorld
+    usage: /SWGive [custom item]
+    aliases: swg
+    permission: op
+
+  SWCWS:
+    description: change the stats of a weapon
+    usage: /SWCWS [weapon] [stat] [value]
+    aliases: swcws
+    permission: op
+
+  SWCAS:
+    description: change the stats of a ability
+    usage: /SWCAS [ability] [stat] [value]
+    aliases: swcas
+    permission: op
+
+  SWStart:
+    description: start a game
+    usage: /SWStart [Gamemode]
+    aliases: sws
+    permission: op
