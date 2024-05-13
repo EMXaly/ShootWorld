@@ -1,5 +1,6 @@
 package me.emxion.shootworld.TabCompleter;
 
+import me.emxion.shootworld.Gamemodes.Gamemode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -11,9 +12,9 @@ import java.util.List;
 
 public class StartCompleter implements TabCompleter {
     private final List<String> gamemodes = new ArrayList<>();
-    public StartCompleter() {
-        this.gamemodes.add("LegacyRandomizer");
-        this.gamemodes.add("LegacyRandomStart");
+    public StartCompleter(List<Gamemode> gamemodes) {
+        for (Gamemode gm: gamemodes)
+            this.gamemodes.add(gm.getName());
     }
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
