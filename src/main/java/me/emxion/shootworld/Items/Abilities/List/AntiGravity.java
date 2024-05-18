@@ -39,6 +39,7 @@ public class AntiGravity extends Ability implements OnLeftClick, OnProjectileHit
         Vector playerLocation = player.getEyeLocation().getDirection();
         EnderPearl enderPearl = player.launchProjectile(org.bukkit.entity.EnderPearl.class);
         enderPearl.setVelocity(playerLocation.multiply(1.5f));
+        enderPearl.setCustomName(this.name);
         enderPearl.setShooter(null);
 
         player.setCooldown(this.material, this.cooldown);
