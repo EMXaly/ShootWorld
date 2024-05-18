@@ -3,8 +3,8 @@ package me.emxion.shootworld.Items.Abilities.List;
 import me.emxion.shootworld.Items.Abilities.Ability;
 import me.emxion.shootworld.Items.Abilities.Interfaces.OnFlying;
 import me.emxion.shootworld.Items.Abilities.Interfaces.OnLanding;
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
@@ -12,10 +12,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class DoubleJump extends Ability implements OnFlying, OnLanding {
     protected HashMap<Player, Integer> maxJump = new HashMap<Player, Integer>();
     protected HashMap<Player, Integer> nbJumps = new HashMap<Player, Integer>();
+    private HashMap<Player, Location> locations = new HashMap<>();
     public DoubleJump() {
         this.name = "DoubleJump";
         this.material = Material.PISTON;
@@ -49,7 +51,8 @@ public class DoubleJump extends Ability implements OnFlying, OnLanding {
             if (nbJumps == maxJump)
                 player.setCooldown(this.material, this.cooldown);
 
-            player.sendMessage("+1 jump");
+            //player.sendMessage("+1 jump");
+            this.locations.put(player, player.getLocation());
         }
     }
 
@@ -59,6 +62,13 @@ public class DoubleJump extends Ability implements OnFlying, OnLanding {
 
         this.nbJumps.replace(player, 0);
         player.setCooldown(this.material, 0);
+
+        if (!this.locations.containsKey(player))
+            return;
+
+        double distance = player.getLocation().distance(this.locations.get(player));
+        //player.sendMessage("distance parcouru DoubleJump : " + distance);
+        this.locations.remove(player);
     }
 
     public void addPlayer(Player player) {
@@ -66,4 +76,8 @@ public class DoubleJump extends Ability implements OnFlying, OnLanding {
         this.nbJumps.put(player, 0);
     }
 
+    @Override
+    public List<Ability> getIncompatibleAbilities() {
+        return null;
+    }
 }

@@ -13,7 +13,7 @@ public class SMG extends Firearm {
         this.nbProjectile = 1;
         this.hasGravity = false;
         this.magazineSize = 17;
-        this.reloadTime = 30;
+        this.reloadTime = 25;
         this.accuracy = 0.03;
         this.projectileVelocity = 4;
         this.volume = 1f;

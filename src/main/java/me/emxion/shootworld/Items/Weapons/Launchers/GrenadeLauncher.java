@@ -12,7 +12,7 @@ public class GrenadeLauncher extends Launcher {
         this.power = 2f;
         this.fireRate = 25;
         this.magazineSize = 6;
-        this.reloadTime = 70;
+        this.reloadTime = 55;
         this.accuracy = 0.025;
         this.projectileVelocity = 1.25;
         this.volume = 2.5f;

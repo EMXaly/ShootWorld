@@ -13,7 +13,7 @@ public class LMG extends Firearm {
         this.nbProjectile = 1;
         this.hasGravity = true;
         this.magazineSize = 55;
-        this.reloadTime = 90;
+        this.reloadTime = 80;
         this.accuracy = 0.075;
         this.projectileVelocity = 4.5;
         this.volume = 2f;

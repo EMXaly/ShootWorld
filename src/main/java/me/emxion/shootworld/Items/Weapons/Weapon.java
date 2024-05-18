@@ -83,6 +83,9 @@ public abstract class Weapon extends Item {
     }
 
     protected void printAmmo(Player player, ItemStack item) {
+        if (item == null)
+            return;
+
         ItemMeta playerItemMeta = item.getItemMeta();
         playerItemMeta.displayName(Component.text(String.format("%s (%d/%d)", this.name, this.currentAmmo.get(player), this.magazineSize)));
         item.setItemMeta(playerItemMeta);

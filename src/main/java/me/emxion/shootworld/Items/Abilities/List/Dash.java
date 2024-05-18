@@ -1,20 +1,25 @@
 package me.emxion.shootworld.Items.Abilities.List;
 
 import me.emxion.shootworld.Items.Abilities.Ability;
+import me.emxion.shootworld.Items.Abilities.Interfaces.OnLanding;
 import me.emxion.shootworld.Items.Abilities.Interfaces.OnSwapingItem;
-import me.emxion.shootworld.ShootWorld;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class Dash extends Ability implements OnSwapingItem {
+import java.util.HashMap;
+import java.util.List;
+
+public class Dash extends Ability implements OnSwapingItem, OnLanding {
     private final float velocityMult = 1;
+    private HashMap<Player, Location> locations = new HashMap<>();
+
     public Dash() {
         this.name = "Dash";
         this.material = Material.FIREWORK_ROCKET;
@@ -43,6 +48,24 @@ public class Dash extends Ability implements OnSwapingItem {
 
         player.setCooldown(this.material, this.cooldown);
         this.finishCooldown(player);
-        player.sendMessage("+1 dash");
+        //player.sendMessage("+1 dash");
+        this.locations.put(player, playerLocation);
+    }
+
+    @Override
+    public void OnLanding(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+
+        if (!this.locations.containsKey(player))
+            return;
+
+        double distance = player.getLocation().distance(this.locations.get(player));
+        //player.sendMessage("distance parcouru Dash : " + distance);
+        this.locations.remove(player);
+    }
+
+    @Override
+    public List<Ability> getIncompatibleAbilities() {
+        return null;
     }
 }

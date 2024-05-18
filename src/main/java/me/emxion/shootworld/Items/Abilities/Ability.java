@@ -2,10 +2,11 @@ package me.emxion.shootworld.Items.Abilities;
 
 import me.emxion.shootworld.Items.Item;
 import me.emxion.shootworld.ShootWorld;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.List;
 
 public abstract class Ability extends Item {
     protected int cooldown;
@@ -24,4 +25,6 @@ public abstract class Ability extends Item {
             }
         }.runTaskLaterAsynchronously(ShootWorld.getPlugin(ShootWorld.class), this.cooldown).getTaskId();
     }
+
+    public abstract List<Ability> getIncompatibleAbilities();
 }
