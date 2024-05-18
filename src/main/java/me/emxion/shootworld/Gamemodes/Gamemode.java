@@ -3,6 +3,9 @@ package me.emxion.shootworld.Gamemodes;
 import me.emxion.shootworld.Items.Abilities.Ability;
 import me.emxion.shootworld.Items.LoadItems;
 import me.emxion.shootworld.Items.Weapons.Weapon;
+import me.emxion.shootworld.ShootWorld;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -15,6 +18,14 @@ public interface Gamemode {
     public void onStart(List<Player> players);
     public void onPlayerDeath(Player killer, Player killed);
     public void onPlayerRespawn(Player player);
+    default void onPlayerGainLvl(Player player) {
+        if (this.isWinning(player)) {
+            Bukkit.broadcast(Component.text(player.getName() + " à gagné !"));
+            List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
+            this.onEnd(onlinePlayers);
+            ShootWorld.getPlugin(ShootWorld.class).setGamemode(null);
+        }
+    }
     public boolean isWinning(Player player);
     public void onEnd(List<Player> players);
 
@@ -35,7 +46,11 @@ public interface Gamemode {
         for (int i = 0; i < nbAbilities; i++) {
             Random rand = new Random();
             int index = rand.nextInt(listAvailableAbilities.size());
-            playerInv.addItem(listAvailableAbilities.get(index).getItem());
+            Ability pickedAbility = listAvailableAbilities.get(index);
+            playerInv.addItem(pickedAbility.getItem());
+            for (Ability incompatibleAbility: pickedAbility.getIncompatibleAbilities())
+                listAvailableAbilities.remove(incompatibleAbility);
+
             listAvailableAbilities.remove(index);
         }
     }

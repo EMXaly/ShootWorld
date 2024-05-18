@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerLevelChangeEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -27,16 +28,8 @@ public class GamemodeHandlers implements Listener {
         Player killer = killed.getKiller();
         Gamemode gm = plugin.getGamemode();
 
-        if (killer != null && killer != killed)
-            if (gm != null) {
-                gm.onPlayerDeath(killer, killed);
-                if (gm.isWinning(killer)) {
-                    Bukkit.broadcast(Component.text(killer.getName() + " à gagné !"));
-                    List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
-                    gm.onEnd(onlinePlayers);
-                    this.plugin.setGamemode(null);
-                }
-            }
+        if (gm != null)
+            gm.onPlayerDeath(killer, killed);
     }
 
     @EventHandler
@@ -51,5 +44,14 @@ public class GamemodeHandlers implements Listener {
             }.runTaskLater(ShootWorld.getPlugin(ShootWorld.class), 1).getTaskId();
         }
 
+    }
+
+    @EventHandler
+    public void onPlayerGainLVL(PlayerLevelChangeEvent event) {
+        if (event.getNewLevel() > event.getOldLevel()) {
+            Gamemode gm = plugin.getGamemode();
+            Player player = event.getPlayer();
+            gm.onPlayerGainLvl(player);
+        }
     }
 }

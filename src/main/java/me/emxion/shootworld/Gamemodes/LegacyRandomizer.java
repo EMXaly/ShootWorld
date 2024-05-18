@@ -1,10 +1,12 @@
 package me.emxion.shootworld.Gamemodes;
 
 import me.emxion.shootworld.Items.LoadItems;
+import me.emxion.shootworld.Stats.Stats;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
+import java.io.IOException;
 import java.util.*;
 
 public class LegacyRandomizer implements Gamemode{
@@ -14,6 +16,8 @@ public class LegacyRandomizer implements Gamemode{
     private final int nbWeapons = 2;
     private final int nbAbilities = 4;
     private final float heal = 4f;
+
+    private final Stats stats = new Stats();
     public LegacyRandomizer(LoadItems loadItems) {
         this.loadItems = loadItems;
     }
@@ -40,15 +44,22 @@ public class LegacyRandomizer implements Gamemode{
             this.randomStuff(player, this.loadItems, this.nbWeapons, this.nbAbilities);
             player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(40, 1));
         }
+
+        this.stats.onStart(this, players, this.loadItems);
     }
 
     @Override
     public void onPlayerDeath(Player killer, Player killed) {
-        killer.giveExpLevels(1);
-        if (!killer.isDead())
-            killer.setHealth(Math.min(killer.getHealthScale(), killer.getHealth() + this.heal));
-        Bukkit.broadcastMessage(killer.getName() + " (LVL" + killer.getLevel() + ") a tué " + killed.getName() + " (LVL " + killed.getLevel() + ")");
-        //killer.giveExp(7 + killed.getLevel());
+        if (killer != null && killer != killed) {
+            killer.giveExpLevels(1); //killer.giveExp(7 + killed.getLevel());
+
+            if (!killer.isDead())
+                killer.setHealth(Math.min(killer.getHealthScale(), killer.getHealth() + this.heal));
+
+            Bukkit.broadcastMessage(killer.getName() + " (LVL" + killer.getLevel() + ") a tué " + killed.getName() + " (LVL " + killed.getLevel() + ")");
+        }
+
+        this.stats.onPlayerDeath(killer, killed);
     }
 
     @Override
@@ -72,6 +83,12 @@ public class LegacyRandomizer implements Gamemode{
             player.getInventory().clear();
             Bukkit.broadcastMessage(i + ". " + player.getName() + " (LVL " + player.getLevel() + ")");
             i++;
+        }
+
+        try {
+            this.stats.onEnd();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

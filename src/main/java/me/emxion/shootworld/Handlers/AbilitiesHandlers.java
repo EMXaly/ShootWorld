@@ -1,5 +1,6 @@
 package me.emxion.shootworld.Handlers;
 
+import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import me.emxion.shootworld.Items.Abilities.Interfaces.*;
 import me.emxion.shootworld.Items.Item;
 import me.emxion.shootworld.Items.LoadItems;
@@ -7,6 +8,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 
@@ -50,11 +52,13 @@ public class AbilitiesHandlers implements Listener {
             onMoving.OnMoving(event);
         }
 
-        if (player.isOnGround())
+        if (player.isOnGround()) {
             for (Item item: loadItems.getOnLanding()) {
                 OnLanding onLanding = (OnLanding) item;
                 onLanding.OnLanding(event);
             }
+        }
+
         if (player.isSneaking()) {
             Inventory playerInventory = player.getInventory();
 
@@ -97,6 +101,26 @@ public class AbilitiesHandlers implements Listener {
                     OnFlying onFlying = (OnFlying) item;
                     onFlying.OnFlying(event);
                 }
+        }
+    }
+
+    @EventHandler
+    public void onJumping(PlayerJumpEvent event) {
+        Player player = event.getPlayer();
+        Inventory playerInventory = player.getInventory();
+        for (Item item: loadItems.getOnJumping()) {
+            if (playerInventory.contains(item.getMaterial())) {
+                OnJumping onJumping = (OnJumping) item;
+                onJumping.OnJumping(event);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onProjectileHit(ProjectileHitEvent event) {
+        for (Item item: loadItems.getOnProjectileHit()) {
+            OnProjectileHit onProjectileHit = (OnProjectileHit) item;
+            onProjectileHit.onProjectileHit(event);
         }
     }
 }
