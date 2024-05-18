@@ -8,6 +8,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +49,12 @@ public interface Gamemode {
             int index = rand.nextInt(listAvailableAbilities.size());
             Ability pickedAbility = listAvailableAbilities.get(index);
             playerInv.addItem(pickedAbility.getItem());
-            for (Ability incompatibleAbility: pickedAbility.getIncompatibleAbilities())
-                listAvailableAbilities.remove(incompatibleAbility);
 
             listAvailableAbilities.remove(index);
+
+            if (pickedAbility.getIncompatibleAbilities() != null)
+                for (Ability incompatibleAbility: pickedAbility.getIncompatibleAbilities())
+                    listAvailableAbilities.remove(incompatibleAbility);
         }
     }
 }

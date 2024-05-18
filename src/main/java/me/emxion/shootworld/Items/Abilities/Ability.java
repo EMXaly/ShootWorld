@@ -27,4 +27,17 @@ public abstract class Ability extends Item {
     }
 
     public abstract List<Ability> getIncompatibleAbilities();
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+
+        if (!(o instanceof Ability))
+            return false;
+
+        Ability a = (Ability) o;
+
+        return (this.getName().equals(a.getName()));
+    }
 }
