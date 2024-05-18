@@ -1,0 +1,82 @@
+package me.emxion.shootworld.Items.Abilities.List;
+
+import com.destroystokyo.paper.event.player.PlayerJumpEvent;
+import me.emxion.shootworld.Items.Abilities.Ability;
+import me.emxion.shootworld.Items.Abilities.Interfaces.OnJumping;
+import me.emxion.shootworld.Items.Abilities.Interfaces.OnLanding;
+import me.emxion.shootworld.Items.Abilities.Interfaces.OnSneaking;
+import me.emxion.shootworld.ShootWorld;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class Slide extends Ability implements OnSneaking, OnLanding, OnJumping {
+    private HashMap<Player, Vector> playersVelocities = new HashMap<>();
+    public Slide() {
+        this.name = "Slide";
+        this.material = Material.ICE;
+        this.item = new ItemStack(this.material, 1);
+        this.cooldown = 0;
+        this.sound = null;
+        this.volume = 1f;
+        this.pitch = 1f;
+
+        this.setup();
+    }
+    @Override
+    public void OnSneaking(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+
+        if (!player.isOnGround()) {
+            Vector playerVelocity = player.getVelocity();
+            this.playersVelocities.put(player, playerVelocity.multiply(new Vector(1.5, 1, 1.5)));
+        }
+
+    }
+
+    @Override
+    public void OnLanding(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+        if (player.isSneaking()) {
+            if (this.playersVelocities.containsKey(player)) {
+                Vector playerVelocity = this.playersVelocities.get(player).setY(player.getVelocity().getY());
+                player.setVelocity(playerVelocity);
+                this.playersVelocities.replace(player, player.getVelocity().multiply(new Vector(0.95, 1, 0.95)));
+            }
+        }
+        else
+            this.playersVelocities.remove(player);
+    }
+
+    @Override
+    public void OnJumping(PlayerJumpEvent event) {
+        Player player = event.getPlayer();
+        if (this.playersVelocities.containsKey(player)) {
+            if (this.playersVelocities.get(player).length() > 1)
+                if (player.isSneaking()) {
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            Vector velocity = player.getVelocity();
+                            player.setVelocity(velocity.setY(1).multiply(playersVelocities.get(player).length()));
+                            player.sendMessage("" + playersVelocities.get(player).length());
+                        }
+                    }.runTaskLater(ShootWorld.getPlugin(ShootWorld.class), 1);
+                }
+        }
+    }
+
+    @Override
+    public List<Ability> getIncompatibleAbilities() {
+        List<Ability> incompatibleAbilities = new ArrayList<>();
+        incompatibleAbilities.add(new Slam());
+        return incompatibleAbilities;
+    }
+}

@@ -14,8 +14,10 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 public class Slam extends Ability implements OnSneaking, OnLanding {
     protected HashMap<Player, Double> yVelocity = new HashMap<Player, Double>();
@@ -71,7 +73,14 @@ public class Slam extends Ability implements OnSneaking, OnLanding {
         this.yVelocity.remove(player);
         player.setCooldown(this.material, this.cooldown);
         player.getWorld().playSound(player.getLocation(), this.sound, SoundCategory.PLAYERS, this.volume, this.pitch);
-        player.sendMessage("+1 slam +" + totalDamage + " damage");
+        //player.sendMessage("+1 slam +" + totalDamage + " damage");
         this.finishCooldown(player);
+    }
+
+    @Override
+    public List<Ability> getIncompatibleAbilities() {
+        List<Ability> incompatibleAbilities = new ArrayList<>();
+        incompatibleAbilities.add(new Slide());
+        return incompatibleAbilities;
     }
 }

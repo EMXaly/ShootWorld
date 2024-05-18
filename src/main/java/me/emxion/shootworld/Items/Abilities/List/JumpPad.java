@@ -5,6 +5,7 @@ import me.emxion.shootworld.Items.Abilities.Interfaces.OnLanding;
 import me.emxion.shootworld.Items.Abilities.Interfaces.OnLeftClick;
 import me.emxion.shootworld.Items.Abilities.Interfaces.OnMoving;
 import me.emxion.shootworld.ShootWorld;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -22,11 +23,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class JumpPad extends Ability implements OnLeftClick, OnMoving {
+public class JumpPad extends Ability implements OnLeftClick, OnMoving, OnLanding {
     private final int maxHeight = 5;
     private final float velocityGain = 1.5f;
     private final int destroyTime = 200;
     private HashMap<Block, List<Player>> usedByPlayers = new HashMap<>();
+    private HashMap<Player, Location> locations = new HashMap<>();
     public JumpPad() {
         this.name = "JumpPad";
         this.material = Material.WAXED_WEATHERED_CUT_COPPER_SLAB;
@@ -55,7 +57,7 @@ public class JumpPad extends Ability implements OnLeftClick, OnMoving {
         player.setCooldown(this.material, this.cooldown);
         this.usedByPlayers.put(block, new ArrayList<>());
         this.finishCooldown(player);
-        player.sendMessage("+1 placed jumppad");
+        //player.sendMessage("+1 placed jumppad");
 
         new BukkitRunnable() {
             @Override
@@ -101,7 +103,27 @@ public class JumpPad extends Ability implements OnLeftClick, OnMoving {
             player.setVelocity(velocity.setY(this.velocityGain));
             player.getWorld().playSound(player.getLocation(), this.sound, SoundCategory.PLAYERS, this.volume, this.pitch);
             this.usedByPlayers.get(block).add(player);
-            player.sendMessage("+1 used jumppad");
+            //player.sendMessage("+1 used jumppad");
+            this.locations.put(player, player.getLocation());
         }
+    }
+
+    @Override
+    public void OnLanding(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+
+        if (!this.locations.containsKey(player))
+            return;
+
+        double distance = player.getLocation().distance(this.locations.get(player));
+        //player.sendMessage("distance parcouru JumpPad : " + distance);
+        this.locations.remove(player);
+    }
+
+    @Override
+    public List<Ability> getIncompatibleAbilities() {
+        List<Ability> incompatibleAbilities = new ArrayList<>();
+        incompatibleAbilities.add(new AntiGravity());
+        return incompatibleAbilities;
     }
 }

@@ -2,10 +2,7 @@ package me.emxion.shootworld.Items;
 
 import me.emxion.shootworld.Items.Abilities.Ability;
 import me.emxion.shootworld.Items.Abilities.Interfaces.*;
-import me.emxion.shootworld.Items.Abilities.List.Dash;
-import me.emxion.shootworld.Items.Abilities.List.DoubleJump;
-import me.emxion.shootworld.Items.Abilities.List.JumpPad;
-import me.emxion.shootworld.Items.Abilities.List.Slam;
+import me.emxion.shootworld.Items.Abilities.List.*;
 import me.emxion.shootworld.Items.Weapons.Firearms.*;
 import me.emxion.shootworld.Items.Weapons.Launchers.GrenadeLauncher;
 import me.emxion.shootworld.Items.Weapons.Launchers.RocketLauncher;
@@ -25,12 +22,17 @@ public class LoadItems {
     private final List<Item> onFlying = new ArrayList<>();
     private final List<Item> onLanding = new ArrayList<>();
     private final List<Item> onSneaking = new ArrayList<>();
+    private final List<Item> onJumping = new ArrayList<>();
+    private final List<Item> onProjectileHit = new ArrayList<>();
+
 
     public LoadItems() {
         this.items.add(new JumpPad());
         this.items.add(new Dash());
         this.items.add(new DoubleJump());
         this.items.add(new Slam());
+        //this.items.add(new Slide());
+        this.items.add(new AntiGravity());
 
         this.items.add(new SMG());
         this.items.add(new LMG());
@@ -40,7 +42,7 @@ public class LoadItems {
 
         this.items.add(new RocketLauncher());
         this.items.add(new GrenadeLauncher());
-        this.items.add(new Shrapnel());
+        //this.items.add(new Shrapnel());
 
         this.storeItems(items);
     }
@@ -63,6 +65,10 @@ public class LoadItems {
                 this.onLanding.add(i);
             if (i instanceof OnSneaking)
                 this.onSneaking.add(i);
+            if (i instanceof OnJumping)
+                this.onJumping.add(i);
+            if (i instanceof OnProjectileHit)
+                this.onProjectileHit.add(i);
         }
     }
 
@@ -93,5 +99,11 @@ public class LoadItems {
     }
     public List<Item> getOnSneaking() {
         return this.onSneaking;
+    }
+    public List<Item> getOnJumping() {
+        return this.onJumping;
+    }
+    public List<Item> getOnProjectileHit() {
+        return this.onProjectileHit;
     }
 }

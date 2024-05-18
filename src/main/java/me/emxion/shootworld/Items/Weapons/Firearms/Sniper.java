@@ -13,7 +13,7 @@ public class Sniper extends Firearm {
         this.nbProjectile = 1;
         this.hasGravity = false;
         this.magazineSize = 5;
-        this.reloadTime = 50;
+        this.reloadTime = 40;
         this.accuracy = 0;
         this.projectileVelocity = 5;
         this.volume = 4f;

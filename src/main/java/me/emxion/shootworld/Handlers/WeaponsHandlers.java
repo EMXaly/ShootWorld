@@ -40,10 +40,12 @@ public class WeaponsHandlers implements Listener {
         ItemStack oldItem = player.getInventory().getItem(event.getPreviousSlot());
         ItemStack newItem = player.getInventory().getItem(event.getNewSlot());
         for (Weapon weapon: loadItems.getWeapons()) {
-            if (weapon.getMaterial() == oldItem.getType())
-                weapon.holsterWeapon(player);
-            else if (weapon.getMaterial() == newItem.getType())
-                weapon.deployWeapon(player);
+            if (oldItem != null)
+                if (weapon.getMaterial() == oldItem.getType())
+                    weapon.holsterWeapon(player);
+            if (newItem != null)
+                if (weapon.getMaterial() == newItem.getType())
+                    weapon.deployWeapon(player);
         }
     }
 

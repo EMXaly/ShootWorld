@@ -13,7 +13,7 @@ public class AR extends Firearm {
         this.nbProjectile = 1;
         this.hasGravity = false;
         this.magazineSize = 20;
-        this.reloadTime = 45;
+        this.reloadTime = 35;
         this.accuracy = 0.015;
         this.projectileVelocity = 4.5;
         this.volume = 2f;
