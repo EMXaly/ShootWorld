@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -78,6 +79,8 @@ public class DoubleJump extends Ability implements OnFlying, OnLanding {
 
     @Override
     public List<Ability> getIncompatibleAbilities() {
-        return null;
+        List<Ability> incompatibleAbilities = new ArrayList<>();
+        incompatibleAbilities.add(new Teleporter());
+        return incompatibleAbilities;
     }
 }

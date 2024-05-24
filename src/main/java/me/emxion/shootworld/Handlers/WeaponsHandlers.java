@@ -24,6 +24,7 @@ public class WeaponsHandlers implements Listener {
     @EventHandler
     public void onClick(PlayerInteractEvent event) {
         if (event.getAction().isRightClick()) {
+            event.setCancelled(true);
             Player player = event.getPlayer();
             for (Weapon weapon: loadItems.getWeapons()) {
                 if (player.getItemInHand().getType() == weapon.getItem().getType()) {

@@ -4,10 +4,8 @@ import me.emxion.shootworld.Items.Abilities.Ability;
 import me.emxion.shootworld.Items.Abilities.Interfaces.OnLeftClick;
 import me.emxion.shootworld.Items.Abilities.Interfaces.OnProjectileHit;
 import me.emxion.shootworld.ShootWorld;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
+import net.kyori.adventure.util.TriState;
+import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -17,9 +15,11 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 public class AntiGravity extends Ability implements OnLeftClick, OnProjectileHit {
+    private HashMap<LivingEntity, Integer> entitiesNoGrabity = new HashMap<>();
     public AntiGravity() {
         this.name = "AntiGravity";
         this.material = Material.END_CRYSTAL;
@@ -28,6 +28,8 @@ public class AntiGravity extends Ability implements OnLeftClick, OnProjectileHit
         this.sound = Sound.ENTITY_SHULKER_BULLET_HIT;
         this.volume = 5f;
         this.pitch = 0.75f;
+
+        this.setup();
     }
     @Override
     public void OnLeftClick(PlayerInteractEvent event) {
@@ -37,10 +39,10 @@ public class AntiGravity extends Ability implements OnLeftClick, OnProjectileHit
             return;
 
         Vector playerLocation = player.getEyeLocation().getDirection();
-        EnderPearl enderPearl = player.launchProjectile(org.bukkit.entity.EnderPearl.class);
-        enderPearl.setVelocity(playerLocation.multiply(1.5f));
-        enderPearl.setCustomName(this.name);
-        enderPearl.setShooter(null);
+        Snowball snowball = player.launchProjectile(org.bukkit.entity.Snowball.class);
+        snowball.setVelocity(playerLocation.multiply(1.5f));
+        snowball.setCustomName(this.name);
+        snowball.setItem(new ItemStack(Material.ENDER_PEARL, 1));
 
         player.setCooldown(this.material, this.cooldown);
         this.finishCooldown(player);
@@ -52,15 +54,26 @@ public class AntiGravity extends Ability implements OnLeftClick, OnProjectileHit
         Location projectileLocation = event.getEntity().getLocation();
         projectile.getWorld().playSound(projectileLocation, this.sound, SoundCategory.PLAYERS, this.volume, this.pitch);
         Collection<Entity> inRadius = projectileLocation.getWorld().getNearbyEntities(projectileLocation, 3, 3, 3);
+        projectileLocation.getWorld().spawnParticle(Particle.END_ROD, projectileLocation, 25, 1, 1, 1, 0.1);
         for (Entity e: inRadius) {
             if (e instanceof LivingEntity) {
+                if (this.entitiesNoGrabity.get(e) != null) {
+                    Bukkit.getServer().getScheduler().cancelTask(this.entitiesNoGrabity.get(e));
+                    this.entitiesNoGrabity.remove(e);
+                }
+
                 e.setGravity(false);
-                new BukkitRunnable() {
+                ((LivingEntity) e).setFrictionState(TriState.FALSE);
+
+                int task = new BukkitRunnable() {
                     @Override
                     public void run() {
                         e.setGravity(true);
+                        ((LivingEntity) e).setFrictionState(TriState.TRUE);
                     }
-                }.runTaskLater(ShootWorld.getPlugin(ShootWorld.class), 30);
+                }.runTaskLaterAsynchronously(ShootWorld.getPlugin(ShootWorld.class), 50).getTaskId();
+
+                this.entitiesNoGrabity.put((LivingEntity) e, task);
             }
         }
     }

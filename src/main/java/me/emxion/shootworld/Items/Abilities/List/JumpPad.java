@@ -5,10 +5,7 @@ import me.emxion.shootworld.Items.Abilities.Interfaces.OnLanding;
 import me.emxion.shootworld.Items.Abilities.Interfaces.OnLeftClick;
 import me.emxion.shootworld.Items.Abilities.Interfaces.OnMoving;
 import me.emxion.shootworld.ShootWorld;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -58,6 +55,23 @@ public class JumpPad extends Ability implements OnLeftClick, OnMoving, OnLanding
         this.usedByPlayers.put(block, new ArrayList<>());
         this.finishCooldown(player);
         //player.sendMessage("+1 placed jumppad");
+
+        BukkitRunnable particleTask = new BukkitRunnable() {
+            int tick = 0;
+            @Override
+            public void run() {
+                if (tick > destroyTime) {
+                    this.cancel();
+                    return;
+                }
+
+                Location particleLocation = block.getLocation().add(0.5, 1, 0.5);
+                block.getWorld().spawnParticle(Particle.WHITE_SMOKE, particleLocation, 2, 0.1, 2, 0.1, 0.01);
+
+                tick++;
+            }
+        };
+        particleTask.runTaskTimer(ShootWorld.getPlugin(ShootWorld.class), 0, 1);
 
         new BukkitRunnable() {
             @Override

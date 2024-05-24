@@ -33,6 +33,7 @@ public class LoadItems {
         this.items.add(new Slam());
         //this.items.add(new Slide());
         this.items.add(new AntiGravity());
+        this.items.add(new Teleporter());
 
         this.items.add(new SMG());
         this.items.add(new LMG());

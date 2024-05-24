@@ -80,7 +80,7 @@ public class Slam extends Ability implements OnSneaking, OnLanding {
     @Override
     public List<Ability> getIncompatibleAbilities() {
         List<Ability> incompatibleAbilities = new ArrayList<>();
-        incompatibleAbilities.add(new Slide());
+        //incompatibleAbilities.add(new Slide());
         return incompatibleAbilities;
     }
 }
