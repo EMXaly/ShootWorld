@@ -14,6 +14,7 @@ public class LegacyRandomizer implements Gamemode{
     LoadItems loadItems;
     private final int lvlNeeded = 30;
     private final int nbWeapons = 2;
+    private final int nbHeals = 1;
     private final int nbAbilities = 4;
     private final float heal = 4f;
 
@@ -41,7 +42,7 @@ public class LegacyRandomizer implements Gamemode{
             player.setExp(0);
             player.setLevel(0);
             player.setGameMode(GameMode.ADVENTURE);
-            this.randomStuff(player, this.loadItems, this.nbWeapons, this.nbAbilities);
+            this.randomStuff(player, this.loadItems, this.nbWeapons, this.nbHeals, this.nbAbilities);
             player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(40, 1));
         }
 
@@ -53,8 +54,8 @@ public class LegacyRandomizer implements Gamemode{
         if (killer != null && killer != killed) {
             killer.giveExpLevels(1); //killer.giveExp(7 + killed.getLevel());
 
-            if (!killer.isDead())
-                killer.setHealth(Math.min(killer.getHealthScale(), killer.getHealth() + this.heal));
+            /*if (!killer.isDead())
+                killer.setHealth(Math.min(killer.getHealthScale(), killer.getHealth() + this.heal));*/
 
             Bukkit.broadcastMessage(killer.getName() + " (LVL" + killer.getLevel() + ") a tué " + killed.getName() + " (LVL " + killed.getLevel() + ")");
         }
@@ -64,9 +65,8 @@ public class LegacyRandomizer implements Gamemode{
 
     @Override
     public void onPlayerRespawn(Player player) {
-        this.randomStuff(player, this.loadItems, this.nbWeapons, this.nbAbilities);
+        this.randomStuff(player, this.loadItems, this.nbWeapons, this.nbHeals, this.nbAbilities);
         player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(40, 1));
-        player.sendMessage("oui");
     }
 
     @Override

@@ -1,6 +1,7 @@
 package me.emxion.shootworld.Gamemodes;
 
 import me.emxion.shootworld.Items.Abilities.Ability;
+import me.emxion.shootworld.Items.Heals.Heal;
 import me.emxion.shootworld.Items.LoadItems;
 import me.emxion.shootworld.Items.Weapons.Weapon;
 import me.emxion.shootworld.ShootWorld;
@@ -30,10 +31,11 @@ public interface Gamemode {
     public boolean isWinning(Player player);
     public void onEnd(List<Player> players);
 
-    default void randomStuff(Player player, LoadItems loadItems, int nbWeapons, int nbAbilities) {
+    default void randomStuff(Player player, LoadItems loadItems, int nbWeapons, int nbHeals, int nbAbilities) {
         Inventory playerInv = player.getInventory();
         playerInv.clear();
         List<Weapon> listAvailableWeapons = new ArrayList<>(loadItems.getWeapons());
+        List<Heal> listAvailableHeal = new ArrayList<>(loadItems.getHeals());
         List<Ability> listAvailableAbilities = new ArrayList<>(loadItems.getAbilities());
 
         for (int i = 0; i < nbWeapons; i++) {
@@ -42,6 +44,13 @@ public interface Gamemode {
             playerInv.addItem(listAvailableWeapons.get(index).getItem());
             listAvailableWeapons.get(index).addPlayerCurrentAmmo(player);
             listAvailableWeapons.remove(index);
+        }
+
+        for (int i = 0; i < nbHeals; i++) {
+            Random rand = new Random();
+            int index = rand.nextInt(listAvailableHeal.size());
+            playerInv.addItem(listAvailableHeal.get(index).getItem());
+            listAvailableHeal.remove(index);
         }
 
         for (int i = 0; i < nbAbilities; i++) {

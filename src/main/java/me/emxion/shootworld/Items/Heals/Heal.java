@@ -1,4 +1,8 @@
 package me.emxion.shootworld.Items.Heals;
 
-public abstract class Heal {
+import me.emxion.shootworld.Items.Item;
+
+public abstract class Heal extends Item {
+    protected float healing;
+    protected int cooldown;
 }

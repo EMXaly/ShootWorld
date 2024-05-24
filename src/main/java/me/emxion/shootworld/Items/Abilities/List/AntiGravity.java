@@ -24,7 +24,7 @@ public class AntiGravity extends Ability implements OnLeftClick, OnProjectileHit
         this.name = "AntiGravity";
         this.material = Material.END_CRYSTAL;
         this.item = new ItemStack(this.material, 1);
-        this.cooldown = 80;
+        this.cooldown = 100;
         this.sound = Sound.ENTITY_SHULKER_BULLET_HIT;
         this.volume = 5f;
         this.pitch = 0.75f;

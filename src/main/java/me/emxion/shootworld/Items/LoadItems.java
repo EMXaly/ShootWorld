@@ -3,6 +3,13 @@ package me.emxion.shootworld.Items;
 import me.emxion.shootworld.Items.Abilities.Ability;
 import me.emxion.shootworld.Items.Abilities.Interfaces.*;
 import me.emxion.shootworld.Items.Abilities.List.*;
+import me.emxion.shootworld.Items.Heals.Heal;
+import me.emxion.shootworld.Items.Heals.Interfaces.OnKill;
+import me.emxion.shootworld.Items.Heals.Interfaces.OnRightClick;
+import me.emxion.shootworld.Items.Heals.Interfaces.OnSpeed;
+import me.emxion.shootworld.Items.Heals.List.CrazedKiller;
+import me.emxion.shootworld.Items.Heals.List.QuickHeal;
+import me.emxion.shootworld.Items.Heals.List.SpeedDemon;
 import me.emxion.shootworld.Items.Weapons.Firearms.*;
 import me.emxion.shootworld.Items.Weapons.Launchers.GrenadeLauncher;
 import me.emxion.shootworld.Items.Weapons.Launchers.RocketLauncher;
@@ -24,6 +31,10 @@ public class LoadItems {
     private final List<Item> onSneaking = new ArrayList<>();
     private final List<Item> onJumping = new ArrayList<>();
     private final List<Item> onProjectileHit = new ArrayList<>();
+    private final List<Heal> heals = new ArrayList<>();
+    private final List<Item> onRightClick = new ArrayList<>();
+    private final List<Item> onSpeed = new ArrayList<>();
+    private final List<Item> onKill = new ArrayList<>();
 
 
     public LoadItems() {
@@ -44,6 +55,10 @@ public class LoadItems {
         this.items.add(new RocketLauncher());
         this.items.add(new GrenadeLauncher());
         //this.items.add(new Shrapnel());
+
+        this.items.add(new SpeedDemon());
+        this.items.add(new CrazedKiller());
+        this.items.add(new QuickHeal());
 
         this.storeItems(items);
     }
@@ -70,6 +85,14 @@ public class LoadItems {
                 this.onJumping.add(i);
             if (i instanceof OnProjectileHit)
                 this.onProjectileHit.add(i);
+            if (i instanceof Heal)
+                this.heals.add((Heal) i);
+            if (i instanceof OnRightClick)
+                this.onRightClick.add(i);
+            if (i instanceof OnSpeed)
+                this.onSpeed.add(i);
+            if (i instanceof OnKill)
+                this.onKill.add(i);
         }
     }
 
@@ -106,5 +129,17 @@ public class LoadItems {
     }
     public List<Item> getOnProjectileHit() {
         return this.onProjectileHit;
+    }
+    public List<Heal> getHeals() {
+        return this.heals;
+    }
+    public List<Item> getOnRightClick() {
+        return this.onRightClick;
+    }
+    public List<Item> getOnSpeed() {
+        return this.onSpeed;
+    }
+    public List<Item> getOnKill() {
+        return this.onKill;
     }
 }

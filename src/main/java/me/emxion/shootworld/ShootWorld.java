@@ -8,6 +8,7 @@ import me.emxion.shootworld.Gamemodes.LegacyRandomStart;
 import me.emxion.shootworld.Gamemodes.LegacyRandomizer;
 import me.emxion.shootworld.Handlers.AbilitiesHandlers;
 import me.emxion.shootworld.Handlers.GamemodeHandlers;
+import me.emxion.shootworld.Handlers.HealsHandlers;
 import me.emxion.shootworld.Handlers.WeaponsHandlers;
 import me.emxion.shootworld.Items.LoadItems;
 import me.emxion.shootworld.TabCompleter.StartCompleter;
@@ -32,6 +33,8 @@ public final class ShootWorld extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(weaponsHandlers, this);
         GamemodeHandlers gamemodeHandlers = new GamemodeHandlers(this);
         Bukkit.getPluginManager().registerEvents(gamemodeHandlers, this);
+        HealsHandlers healsHandlers = new HealsHandlers(loadItems);
+        Bukkit.getPluginManager().registerEvents(healsHandlers, this);
 
         //Gamemodes
         List<Gamemode> gamemodes = new ArrayList<>();
