@@ -9,18 +9,6 @@ commands:
     aliases: swg
     permission: op
 
-  SWCWS:
-    description: change the stats of a weapon
-    usage: /SWCWS [weapon] [stat] [value]
-    aliases: swcws
-    permission: op
-
-  SWCAS:
-    description: change the stats of a ability
-    usage: /SWCAS [ability] [stat] [value]
-    aliases: swcas
-    permission: op
-
   SWStart:
     description: start a game
     usage: /SWStart [Gamemode]

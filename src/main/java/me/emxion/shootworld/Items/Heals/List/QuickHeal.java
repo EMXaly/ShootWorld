@@ -9,11 +9,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class QuickHeal extends Heal implements OnRightClick {
     public QuickHeal() {
-        this.name = "QuickHeal";
+        this.name = "QuickFix";
         this.material = Material.SPLASH_POTION;
         this.item = new ItemStack(this.material, 1);
-        this.healing = 20;
-        this.cooldown = 100;
+        this.healing = 12;
+        this.cooldown = 200;
 
         this.setup();
     }

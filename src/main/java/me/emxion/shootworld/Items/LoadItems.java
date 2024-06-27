@@ -30,6 +30,7 @@ public class LoadItems {
     private final List<Item> onLanding = new ArrayList<>();
     private final List<Item> onSneaking = new ArrayList<>();
     private final List<Item> onJumping = new ArrayList<>();
+    private final List<Item> onDeath = new ArrayList<>();
     private final List<Item> onProjectileHit = new ArrayList<>();
     private final List<Heal> heals = new ArrayList<>();
     private final List<Item> onRightClick = new ArrayList<>();
@@ -42,7 +43,7 @@ public class LoadItems {
         this.items.add(new Dash());
         this.items.add(new DoubleJump());
         this.items.add(new Slam());
-        //this.items.add(new Slide());
+        this.items.add(new Slide());
         this.items.add(new AntiGravity());
         this.items.add(new Teleporter());
 
@@ -54,7 +55,7 @@ public class LoadItems {
 
         this.items.add(new RocketLauncher());
         this.items.add(new GrenadeLauncher());
-        //this.items.add(new Shrapnel());
+        this.items.add(new Shrapnel());
 
         this.items.add(new SpeedDemon());
         this.items.add(new CrazedKiller());
@@ -83,6 +84,8 @@ public class LoadItems {
                 this.onSneaking.add(i);
             if (i instanceof OnJumping)
                 this.onJumping.add(i);
+            if (i instanceof OnDeath)
+                this.onDeath.add(i);
             if (i instanceof OnProjectileHit)
                 this.onProjectileHit.add(i);
             if (i instanceof Heal)
@@ -126,6 +129,9 @@ public class LoadItems {
     }
     public List<Item> getOnJumping() {
         return this.onJumping;
+    }
+    public List<Item> getOnDeath() {
+        return this.onDeath;
     }
     public List<Item> getOnProjectileHit() {
         return this.onProjectileHit;

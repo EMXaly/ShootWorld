@@ -1,14 +1,17 @@
 package me.emxion.shootworld.Handlers;
 
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
+import io.papermc.paper.event.entity.EntityMoveEvent;
 import me.emxion.shootworld.Items.Abilities.Interfaces.*;
 import me.emxion.shootworld.Items.Item;
 import me.emxion.shootworld.Items.LoadItems;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
@@ -124,6 +127,18 @@ public class AbilitiesHandlers implements Listener {
             if (projectile.getName().equals(item.getName())) {
                 OnProjectileHit onProjectileHit = (OnProjectileHit) item;
                 onProjectileHit.onProjectileHit(event);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        Inventory playerInventory = event.getPlayer().getInventory();
+
+        for (Item item: loadItems.getOnDeath()) {
+            if (playerInventory.contains(item.getMaterial())) {
+                OnDeath onDeath = (OnDeath) item;
+                onDeath.onDeath(event);
             }
         }
     }

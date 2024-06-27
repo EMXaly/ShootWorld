@@ -22,7 +22,7 @@ import java.util.List;
 
 public class JumpPad extends Ability implements OnLeftClick, OnMoving, OnLanding {
     private final int maxHeight = 5;
-    private final float velocityGain = 1.5f;
+    private final float velocityGain = 2.25f;
     private final int destroyTime = 200;
     private HashMap<Block, List<Player>> usedByPlayers = new HashMap<>();
     private HashMap<Player, Location> locations = new HashMap<>();

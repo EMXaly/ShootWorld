@@ -9,16 +9,16 @@ import org.bukkit.util.Vector;
 import java.util.List;
 
 public class Shrapnel extends Launcher {
-    private int nbShrapnel = 4;
+    private int nbShrapnel = 6;
     public Shrapnel() {
         this.name = "Shrapnel";
         this.material = Material.PRISMARINE_CRYSTALS;
         this.item = new ItemStack(this.material, 1);
-        this.damage = 3;
+        this.damage = 2;
         this.power = 1f;
         this.fireRate = 30;
-        this.magazineSize = 1;
-        this.reloadTime = 30;
+        this.magazineSize = 2;
+        this.reloadTime = 50;
         this.accuracy = 0.05;
         this.projectileVelocity = 1.25;
         this.volume = 2.5f;

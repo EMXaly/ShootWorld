@@ -42,7 +42,7 @@ public class DoubleJump extends Ability implements OnFlying, OnLanding {
         int nbJumps = this.nbJumps.get(player);
 
         if (nbJumps + 1 <= maxJump) {
-            Vector playerDirection = player.getLocation().getDirection().multiply(0.35);
+            Vector playerDirection = player.getLocation().getDirection().multiply(player.getVelocity().length());
             playerDirection.setY(0.4);
             player.setVelocity(playerDirection);
 
@@ -73,7 +73,7 @@ public class DoubleJump extends Ability implements OnFlying, OnLanding {
     }
 
     public void addPlayer(Player player) {
-        this.maxJump.put(player, 1);
+        this.maxJump.put(player, 2);
         this.nbJumps.put(player, 0);
     }
 

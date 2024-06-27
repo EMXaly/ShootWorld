@@ -20,7 +20,7 @@ public class CrazedKiller extends Heal implements OnKill {
 
     @Override
     public void onKill(PlayerDeathEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getPlayer().getKiller();
 
         if (player.getCooldown(this.material) > 0)
             return;

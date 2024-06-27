@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 public class SpeedDemon extends Heal implements OnSpeed {
     private double minVelocity = 0.75;
@@ -26,7 +27,10 @@ public class SpeedDemon extends Heal implements OnSpeed {
         if (player.getCooldown(this.material) > 0)
             return;
 
-        if (player.getVelocity().length() > this.minVelocity) {
+        Vector playerVelocity = player.getVelocity();
+        playerVelocity.setY(playerVelocity.getY()/1.75);
+
+        if (playerVelocity.length() > this.minVelocity) {
             player.setHealth(Math.min(player.getHealthScale(), player.getHealth() + this.healing));
             player.setCooldown(this.material, this.cooldown);
         }

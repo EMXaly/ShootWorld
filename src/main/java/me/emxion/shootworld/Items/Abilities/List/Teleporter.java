@@ -1,10 +1,13 @@
 package me.emxion.shootworld.Items.Abilities.List;
 
 import me.emxion.shootworld.Items.Abilities.Ability;
+import me.emxion.shootworld.Items.Abilities.Interfaces.OnDeath;
 import me.emxion.shootworld.Items.Abilities.Interfaces.OnFlying;
+import me.emxion.shootworld.Items.Abilities.Interfaces.OnLanding;
 import org.bukkit.*;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.ItemStack;
@@ -14,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Teleporter extends Ability implements OnFlying {
+public class Teleporter extends Ability implements OnFlying, OnDeath {
     private HashMap<Player, Item> playerTp = new HashMap<>();
     public Teleporter() {
         this.name = "Teleporter";
@@ -53,6 +56,8 @@ public class Teleporter extends Ability implements OnFlying {
             item.setVelocity(new Vector());
             item.setCanMobPickup(false);
             item.setCanPlayerPickup(false);
+            item.setInvulnerable(true);
+            item.setNoPhysics(true);
             this.playerTp.put(player, item);
         }
     }
@@ -62,5 +67,15 @@ public class Teleporter extends Ability implements OnFlying {
         List<Ability> incompatibleAbilities = new ArrayList<>();
         incompatibleAbilities.add(new DoubleJump());
         return incompatibleAbilities;
+    }
+
+    @Override
+    public void onDeath(PlayerDeathEvent event) {
+        Player player = event.getPlayer();
+
+        if (this.playerTp.get(player) != null) {
+            this.playerTp.get(player).remove();
+            this.playerTp.remove(player);
+        }
     }
 }

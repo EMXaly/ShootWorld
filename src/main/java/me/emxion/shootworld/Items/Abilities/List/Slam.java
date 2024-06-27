@@ -21,7 +21,7 @@ import java.util.List;
 
 public class Slam extends Ability implements OnSneaking, OnLanding {
     protected HashMap<Player, Double> yVelocity = new HashMap<Player, Double>();
-    private final int damage = 5;
+    private final int damage = 8;
 
     public Slam() {
         this.name = "Slam";
@@ -60,7 +60,7 @@ public class Slam extends Ability implements OnSneaking, OnLanding {
             return;
 
         Location playerLocation = player.getLocation();
-        Collection<Entity> inRadius = playerLocation.getWorld().getNearbyEntities(playerLocation, 3, 1, 3);
+        Collection<Entity> inRadius = playerLocation.getWorld().getNearbyEntities(playerLocation, 5, 1, 5);
         int totalDamage = 0;
         for (Entity e: inRadius) {
             if (e instanceof LivingEntity && !e.equals(player)) {
@@ -80,7 +80,7 @@ public class Slam extends Ability implements OnSneaking, OnLanding {
     @Override
     public List<Ability> getIncompatibleAbilities() {
         List<Ability> incompatibleAbilities = new ArrayList<>();
-        //incompatibleAbilities.add(new Slide());
+        incompatibleAbilities.add(new Slide());
         return incompatibleAbilities;
     }
 }

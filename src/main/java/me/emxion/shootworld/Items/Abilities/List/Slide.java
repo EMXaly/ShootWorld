@@ -19,6 +19,11 @@ import java.util.List;
 
 public class Slide extends Ability implements OnSneaking, OnLanding, OnJumping {
     private HashMap<Player, Vector> playersVelocities = new HashMap<>();
+    private final  Vector storeVelocityBoost = new Vector(1.5, 1, 1.5);
+    private final Vector antiGravityBoost = new Vector(0.94, 0, 0.94);
+    private final Vector slideBoost = new Vector(0.95, 1, 0.95);
+    private final double minVelocityJump = 0.7;
+    private final double jumpBoost = 0.5;
     public Slide() {
         this.name = "Slide";
         this.material = Material.ICE;
@@ -34,11 +39,17 @@ public class Slide extends Ability implements OnSneaking, OnLanding, OnJumping {
     public void OnSneaking(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.isOnGround()) {
+        if (!player.isOnGround() && player.hasGravity()) {
             Vector playerVelocity = player.getVelocity();
-            this.playersVelocities.put(player, playerVelocity.multiply(new Vector(1.5, 1, 1.5)));
+            this.playersVelocities.put(player, playerVelocity.multiply(this.storeVelocityBoost));
         }
 
+        // Antigravity combo
+        if (!player.hasGravity()) {
+            Vector playerVelocity = player.getVelocity();
+            playerVelocity.multiply(this.antiGravityBoost);
+            player.setVelocity(playerVelocity);
+        }
     }
 
     @Override
@@ -48,7 +59,7 @@ public class Slide extends Ability implements OnSneaking, OnLanding, OnJumping {
             if (this.playersVelocities.containsKey(player)) {
                 Vector playerVelocity = this.playersVelocities.get(player).setY(player.getVelocity().getY());
                 player.setVelocity(playerVelocity);
-                this.playersVelocities.replace(player, player.getVelocity().multiply(new Vector(0.95, 1, 0.95)));
+                this.playersVelocities.replace(player, player.getVelocity().multiply(this.slideBoost));
             }
         }
         else
@@ -59,14 +70,14 @@ public class Slide extends Ability implements OnSneaking, OnLanding, OnJumping {
     public void OnJumping(PlayerJumpEvent event) {
         Player player = event.getPlayer();
         if (this.playersVelocities.containsKey(player)) {
-            if (this.playersVelocities.get(player).length() > 1)
+            if (this.playersVelocities.get(player).length() > this.minVelocityJump)
                 if (player.isSneaking()) {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
                             Vector velocity = player.getVelocity();
-                            player.setVelocity(velocity.setY(1).multiply(playersVelocities.get(player).length()));
-                            player.sendMessage("" + playersVelocities.get(player).length());
+                            player.setVelocity(velocity.setY(playersVelocities.get(player).length() * jumpBoost));
+                            //player.sendMessage("" + playersVelocities.get(player).length());
                         }
                     }.runTaskLater(ShootWorld.getPlugin(ShootWorld.class), 1);
                 }

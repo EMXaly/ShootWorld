@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Dash extends Ability implements OnSwapingItem, OnLanding {
-    private final float velocityMult = 1;
+    private final float velocityMult = 1.5f;
     private HashMap<Player, Location> locations = new HashMap<>();
 
     public Dash() {
