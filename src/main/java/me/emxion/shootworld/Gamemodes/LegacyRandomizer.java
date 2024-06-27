@@ -66,7 +66,7 @@ public class LegacyRandomizer implements Gamemode{
     @Override
     public void onPlayerRespawn(Player player) {
         this.randomStuff(player, this.loadItems, this.nbWeapons, this.nbHeals, this.nbAbilities);
-        player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(40, 1));
+        player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(60, 2));
     }
 
     @Override
