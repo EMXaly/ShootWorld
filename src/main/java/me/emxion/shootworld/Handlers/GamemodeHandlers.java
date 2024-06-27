@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerLevelChangeEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -53,5 +54,10 @@ public class GamemodeHandlers implements Listener {
             Player player = event.getPlayer();
             gm.onPlayerGainLvl(player);
         }
+    }
+
+    @EventHandler
+    public void onPlayerThrowItem(PlayerDropItemEvent event) {
+        event.setCancelled(true);
     }
 }

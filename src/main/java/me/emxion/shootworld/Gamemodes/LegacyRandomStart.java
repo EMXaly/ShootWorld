@@ -64,7 +64,7 @@ public class LegacyRandomStart implements Gamemode {
 
     @Override
     public void onPlayerRespawn(Player player) {
-        player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(40, 1));
+        player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(60, 2));
     }
 
     @Override
