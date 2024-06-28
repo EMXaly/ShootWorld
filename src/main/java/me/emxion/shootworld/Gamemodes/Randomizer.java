@@ -106,14 +106,15 @@ public class Randomizer implements Gamemode{
             player.setGameMode(GameMode.SPECTATOR);
             player.getInventory().clear();
             Bukkit.broadcastMessage(i + ". " + player.getName() + " (LVL " + player.getLevel() + ")");
-            i++;
 
             if (i == 1)
                 player.showTitle(Title.title(Component.text("1er"), Component.empty(), Title.Times.times(Duration.ZERO, Duration.ofMillis(500), Duration.ofMillis(100))));
             else
-                player.showTitle(Title.title(Component.text(i + "ème"), Component.empty(), Title.Times.times(Duration.ZERO, Duration.ofMillis(500), Duration.ofMillis(100))));
+                player.showTitle(Title.title(Component.text(i + "ème"), Component.empty(), Title.Times.times(Duration.ZERO, Duration.ofMillis(1000), Duration.ofMillis(200))));
 
             player.setPlayerListName(player.getName());
+
+            i++;
         }
 
         try {
