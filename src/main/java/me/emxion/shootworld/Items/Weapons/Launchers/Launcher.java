@@ -56,6 +56,7 @@ public class Launcher extends Weapon {
         tnt.customName(Component.text(this.getName()));
         tnt.setSource((Entity) sb.getShooter());
         tnt.setCustomNameVisible(false);
+        tnt.setSilent(sb.isSilent());
     }
 
     public void exploding(EntityExplodeEvent event) {

@@ -4,8 +4,8 @@ package me.emxion.shootworld;
 import me.emxion.shootworld.Commands.GiveItem;
 import me.emxion.shootworld.Commands.Start;
 import me.emxion.shootworld.Gamemodes.Gamemode;
-import me.emxion.shootworld.Gamemodes.LegacyRandomStart;
-import me.emxion.shootworld.Gamemodes.LegacyRandomizer;
+import me.emxion.shootworld.Gamemodes.RandomStart;
+import me.emxion.shootworld.Gamemodes.Randomizer;
 import me.emxion.shootworld.Handlers.AbilitiesHandlers;
 import me.emxion.shootworld.Handlers.GamemodeHandlers;
 import me.emxion.shootworld.Handlers.HealsHandlers;
@@ -38,8 +38,8 @@ public final class ShootWorld extends JavaPlugin {
 
         //Gamemodes
         List<Gamemode> gamemodes = new ArrayList<>();
-        gamemodes.add(new LegacyRandomizer(loadItems));
-        gamemodes.add(new LegacyRandomStart(loadItems));
+        gamemodes.add(new Randomizer(loadItems));
+        gamemodes.add(new RandomStart(loadItems));
 
         //Commands
         getCommand("SWGive").setExecutor(new GiveItem(loadItems));

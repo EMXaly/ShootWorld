@@ -4,6 +4,8 @@ import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.Vector;
 
 import java.util.List;
@@ -38,7 +40,7 @@ public class Shrapnel extends Launcher {
         world.spawnParticle(Particle.EXPLOSION_LARGE, explosion, (int) this.power);
         world.playSound(explosion, Sound.ENTITY_GENERIC_EXPLODE, this.power * 2, 1f);
 
-        if (tnt.getSource() instanceof LivingEntity) {
+        if (!tnt.isSilent()) {
             for (int i = 0; i < this.nbShrapnel; i++) {
                 Vector explosionDirection = new Vector(0, 0.25, 0);
                 Snowball snowball = world.spawn(tnt.getLocation(), org.bukkit.entity.Snowball.class);
@@ -46,7 +48,9 @@ public class Shrapnel extends Launcher {
                 snowball.setVelocity(explosionDirection.multiply(this.projectileVelocity));
 
                 snowball.setCustomName(this.name);
+                snowball.setShooter((ProjectileSource) tnt.getSource());
                 snowball.setGravity(this.hasGravity);
+                snowball.setSilent(true);
             }
         }
         else {
