@@ -26,14 +26,14 @@ public interface Gamemode {
             List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
             this.onEnd(onlinePlayers);
             ShootWorld.getPlugin(ShootWorld.class).setGamemode(null);
-        }
+        } else
+            player.setPlayerListName(player.getName() + " [Lvl: " + player.getLevel() + "]");
     }
     public boolean isWinning(Player player);
     public void onEnd(List<Player> players);
 
     default void randomStuff(Player player, LoadItems loadItems, int nbWeapons, int nbHeals, int nbAbilities) {
         Inventory playerInv = player.getInventory();
-        playerInv.clear();
         List<Weapon> listAvailableWeapons = new ArrayList<>(loadItems.getWeapons());
         List<Heal> listAvailableHeal = new ArrayList<>(loadItems.getHeals());
         List<Ability> listAvailableAbilities = new ArrayList<>(loadItems.getAbilities());

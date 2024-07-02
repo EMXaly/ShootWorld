@@ -3,14 +3,13 @@ package me.emxion.shootworld;
 
 import me.emxion.shootworld.Commands.GiveItem;
 import me.emxion.shootworld.Commands.Start;
+import me.emxion.shootworld.Gamemodes.DeathMatch;
 import me.emxion.shootworld.Gamemodes.Gamemode;
 import me.emxion.shootworld.Gamemodes.RandomStart;
 import me.emxion.shootworld.Gamemodes.Randomizer;
-import me.emxion.shootworld.Handlers.AbilitiesHandlers;
-import me.emxion.shootworld.Handlers.GamemodeHandlers;
-import me.emxion.shootworld.Handlers.HealsHandlers;
-import me.emxion.shootworld.Handlers.WeaponsHandlers;
+import me.emxion.shootworld.Handlers.*;
 import me.emxion.shootworld.Items.LoadItems;
+import me.emxion.shootworld.Loadouts.Loadout;
 import me.emxion.shootworld.TabCompleter.StartCompleter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
@@ -36,15 +35,21 @@ public final class ShootWorld extends JavaPlugin {
         HealsHandlers healsHandlers = new HealsHandlers(loadItems);
         Bukkit.getPluginManager().registerEvents(healsHandlers, this);
 
+        Loadout loadout = new Loadout();
+        LoadoutHandlers loadoutHandlers = new LoadoutHandlers();
+        Bukkit.getPluginManager().registerEvents(loadoutHandlers, this);
+
         //Gamemodes
         List<Gamemode> gamemodes = new ArrayList<>();
         gamemodes.add(new Randomizer(loadItems));
         gamemodes.add(new RandomStart(loadItems));
+        gamemodes.add(new DeathMatch(loadItems, loadoutHandlers));
 
         //Commands
         getCommand("SWGive").setExecutor(new GiveItem(loadItems));
         getCommand("SWStart").setExecutor(new Start(this, gamemodes));
         getCommand("SWStart").setTabCompleter(new StartCompleter(gamemodes));
+        getCommand("loadout").setExecutor(new me.emxion.shootworld.Commands.Loadout(loadout));
 
         //Gamerules
         World world = Bukkit.getServer().getWorld("World");

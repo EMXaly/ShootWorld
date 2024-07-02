@@ -42,7 +42,7 @@ public class Stats {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss-nn");
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        File file = new File(ShootWorld.getPlugin(ShootWorld.class).getDataFolder().getAbsolutePath() + "/" + localDateTime.format(dateTimeFormatter) + ".json");
+        File file = new File(ShootWorld.getPlugin(ShootWorld.class).getDataFolder().getAbsolutePath() + "/matches/" + localDateTime.format(dateTimeFormatter) + ".json");
         file.getParentFile().mkdir();
         file.createNewFile();
         Writer writer = new FileWriter(file, false);

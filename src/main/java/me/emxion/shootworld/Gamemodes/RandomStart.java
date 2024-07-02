@@ -55,18 +55,20 @@ public class RandomStart implements Gamemode {
                         player.setFoodLevel(20);
                         player.setExp(0);
                         player.setLevel(0);
+                        player.getInventory().clear();
                         player.setGameMode(GameMode.ADVENTURE);
                         randomStuff(player, loadItems, nbWeapons, nbHeals, nbAbilities);
                         player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(40, 1));
 
                         player.setPlayerListName(player.getName() + " [Lvl: " + 0 + "]");
-
-                        this.cancel();
-                        return;
                     }
 
                 }
                 i--;
+                if (i < 0) {
+                    this.cancel();
+                    return;
+                }
             }
         };
         visualTask.runTaskTimer(ShootWorld.getPlugin(ShootWorld.class), 0, 20);
@@ -106,9 +108,9 @@ public class RandomStart implements Gamemode {
             Bukkit.broadcastMessage(i + ". " + player.getName() + " (LVL " + player.getLevel() + ")");
             
             if (i == 1)
-                player.showTitle(Title.title(Component.text("1er"), Component.empty(), Title.Times.times(Duration.ZERO, Duration.ofMillis(500), Duration.ofMillis(100))));
+                player.showTitle(Title.title(Component.text("1er"), Component.empty(), Title.Times.times(Duration.ZERO, Duration.ofMillis(1500), Duration.ofMillis(500))));
             else
-                player.showTitle(Title.title(Component.text(i + "ème"), Component.empty(), Title.Times.times(Duration.ZERO, Duration.ofMillis(1000), Duration.ofMillis(200))));
+                player.showTitle(Title.title(Component.text(i + "ème"), Component.empty(), Title.Times.times(Duration.ZERO, Duration.ofMillis(1500), Duration.ofMillis(500))));
 
             player.setPlayerListName(player.getName());
 

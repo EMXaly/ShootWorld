@@ -1,30 +1,39 @@
 package me.emxion.shootworld.Gamemodes;
 
+import me.emxion.shootworld.Handlers.LoadoutHandlers;
+import me.emxion.shootworld.Items.Abilities.Ability;
+import me.emxion.shootworld.Items.Heals.Heal;
 import me.emxion.shootworld.Items.LoadItems;
+import me.emxion.shootworld.Items.Weapons.Weapon;
+import me.emxion.shootworld.Loadouts.PlayerLoadout;
+import me.emxion.shootworld.Loadouts.PlayersLoadouts;
 import me.emxion.shootworld.ShootWorld;
 import me.emxion.shootworld.Stats.Stats;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
-public class Randomizer implements Gamemode{
-    private final String name = "Randomizer";
+public class DeathMatch implements Gamemode {
+    private final String name = "DeathMatch";
     LoadItems loadItems;
+    LoadoutHandlers loadoutHandlers;
+    PlayersLoadouts playersLoadouts;
     private final int lvlNeeded = 30;
-    private final int nbWeapons = 2;
-    private final int nbHeals = 1;
-    private final int nbAbilities = 4;
-
     private final Stats stats = new Stats();
-    public Randomizer(LoadItems loadItems) {
+
+    public DeathMatch(LoadItems loadItems, LoadoutHandlers loadoutHandlers) {
         this.loadItems = loadItems;
+        this.loadoutHandlers = loadoutHandlers;
     }
 
     @Override
@@ -38,6 +47,8 @@ public class Randomizer implements Gamemode{
         world.setGameRule(GameRule.FALL_DAMAGE, false);
         world.setGameRule(GameRule.NATURAL_REGENERATION, false);
         world.setDifficulty(Difficulty.PEACEFUL);
+
+        this.playersLoadouts = this.loadoutHandlers.getPlayersLoadouts();
 
         BukkitRunnable visualTask = new BukkitRunnable() {
             int i = 3;
@@ -55,14 +66,12 @@ public class Randomizer implements Gamemode{
                         player.setFoodLevel(20);
                         player.setExp(0);
                         player.setLevel(0);
-                        player.getInventory().clear();
                         player.setGameMode(GameMode.ADVENTURE);
-                        randomStuff(player, loadItems, nbWeapons, nbHeals, nbAbilities);
+                        givePlayerLoadout(player);
                         player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(40, 1));
 
                         player.setPlayerListName(player.getName() + " [Lvl: " + 0 + "]");
                     }
-
                 }
                 i--;
 
@@ -77,10 +86,43 @@ public class Randomizer implements Gamemode{
         this.stats.onStart(this, players, this.loadItems);
     }
 
+    private void givePlayerLoadout(Player player) {
+        Inventory playerInv = player.getInventory();
+        playerInv.clear();
+        PlayerLoadout playerLoadout = this.playersLoadouts.getPlayerLoadout(player);
+
+        for (String weaponName: playerLoadout.getWeapons().values()) {
+            if (weaponName.equals("null"))
+                randomStuff(player, this.loadItems, 1, 0, 0);
+            else
+                for (Weapon weapon: this.loadItems.getWeapons())
+                    if (weapon.getName().equals(weaponName))
+                        playerInv.addItem(weapon.getItem());
+        }
+
+        for (String healName: playerLoadout.getHeals().values()) {
+            if (healName.equals("null"))
+                randomStuff(player, this.loadItems, 0, 1, 0);
+            else
+                for (Heal heal: this.loadItems.getHeals())
+                    if (heal.getName().equals(healName))
+                        playerInv.addItem(heal.getItem());
+        }
+
+        for (String abilityName: playerLoadout.getAbilities().values()) {
+            if (abilityName.equals("null"))
+                randomStuff(player, this.loadItems, 0, 0, 1);
+            else
+                for (Ability ability: this.loadItems.getAbilities())
+                    if (ability.getName().equals(abilityName))
+                        playerInv.addItem(ability.getItem());
+        }
+    }
+
     @Override
     public void onPlayerDeath(Player killer, Player killed) {
         if (killer != null && killer != killed) {
-            killer.giveExpLevels(1); //killer.giveExp(7 + killed.getLevel());
+            killer.giveExpLevels(1);
 
             Bukkit.broadcastMessage(killer.getName() + " (LVL" + killer.getLevel() + ") a tué " + killed.getName() + " (LVL " + killed.getLevel() + ")");
         }
@@ -90,7 +132,6 @@ public class Randomizer implements Gamemode{
 
     @Override
     public void onPlayerRespawn(Player player) {
-        this.randomStuff(player, this.loadItems, this.nbWeapons, this.nbHeals, this.nbAbilities);
         player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(60, 2));
     }
 
