@@ -28,6 +28,26 @@ public abstract class Weapon extends Item {
     protected float volume;
     protected float pitch;
 
+    public void setDamage(float damage) {
+        this.damage = damage;
+    }
+
+    public float getDamage() {
+        return this.damage;
+    }
+
+    public void setReloadTime(int reloadTime) {
+        this.reloadTime = reloadTime;
+    }
+
+    public int getReloadTime() {
+        return this.reloadTime;
+    }
+
+    public HashMap<Player, Integer> getCurrentAmmo() {
+        return this.currentAmmo;
+    }
+
     public void addPlayerCurrentAmmo(Player player) {
         this.currentAmmo.put(player, this.magazineSize);
     }

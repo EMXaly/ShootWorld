@@ -20,17 +20,25 @@ import java.util.List;
 
 public class AntiGravity extends Ability implements OnLeftClick, OnProjectileHit {
     private HashMap<LivingEntity, Integer> entitiesNoGrabity = new HashMap<>();
+    private int duration = 30;
+    private double power = 1;
     public AntiGravity() {
         this.name = "AntiGravity";
         this.material = Material.END_CRYSTAL;
         this.item = new ItemStack(this.material, 1);
-        this.cooldown = 100;
+        this.cooldown = 80;
         this.sound = Sound.ENTITY_SHULKER_BULLET_HIT;
         this.volume = 5f;
         this.pitch = 0.75f;
 
         this.setup();
     }
+
+    @Override
+    public void setPower(double power) {
+        this.power = power;
+    }
+
     @Override
     public void OnLeftClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -65,13 +73,14 @@ public class AntiGravity extends Ability implements OnLeftClick, OnProjectileHit
                 e.setGravity(false);
                 ((LivingEntity) e).setFrictionState(TriState.FALSE);
 
+                long durationPower = (long) (this.duration * this.power);
                 int task = new BukkitRunnable() {
                     @Override
                     public void run() {
                         e.setGravity(true);
                         ((LivingEntity) e).setFrictionState(TriState.TRUE);
                     }
-                }.runTaskLaterAsynchronously(ShootWorld.getPlugin(ShootWorld.class), 50).getTaskId();
+                }.runTaskLaterAsynchronously(ShootWorld.getPlugin(ShootWorld.class), durationPower).getTaskId();
 
                 this.entitiesNoGrabity.put((LivingEntity) e, task);
             }

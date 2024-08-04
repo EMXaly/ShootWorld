@@ -23,12 +23,17 @@ public class Teleporter extends Ability implements OnFlying, OnDeath {
         this.name = "Teleporter";
         this.material = Material.ENDER_PEARL;
         this.item = new ItemStack(this.material, 1);
-        this.cooldown = 50;
+        this.cooldown = 60;
         this.sound = Sound.ENTITY_ENDERMAN_TELEPORT;
         this.volume = 3f;
         this.pitch = 0.5f;
 
         this.setup();
+    }
+
+    @Override
+    public void setPower(double power) {
+        return;
     }
 
     @Override

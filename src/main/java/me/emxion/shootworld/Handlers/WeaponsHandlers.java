@@ -1,16 +1,21 @@
 package me.emxion.shootworld.Handlers;
 
 import me.emxion.shootworld.Items.LoadItems;
+import me.emxion.shootworld.Items.Weapons.Flames.Flames;
 import me.emxion.shootworld.Items.Weapons.Launchers.Launcher;
 import me.emxion.shootworld.Items.Weapons.Weapon;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
@@ -70,5 +75,27 @@ public class WeaponsHandlers implements Listener {
                     launcher.exploding(event);
             }
         }
+    }
+
+    @EventHandler
+    public void onPlayerDamage(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player) {
+            if (event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK)
+                event.setDamage(2);
+        }
+    }
+
+    @EventHandler
+    public void onBlockIgnite(BlockIgniteEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
+
+        for (Weapon weapon: loadItems.getWeapons())
+            if (weapon.getCurrentAmmo().get(player) != null)
+                weapon.addPlayerCurrentAmmo(player);
     }
 }

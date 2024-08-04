@@ -5,7 +5,7 @@ api-version: '1.20'
 commands:
   SWGive:
     description: Give item from the plugin ShootWorld
-    usage: /SWGive [itemType] [itemName]
+    usage: /SWGive [player] [itemName]
     aliases: swg
     permission: op
 

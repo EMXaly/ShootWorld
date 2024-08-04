@@ -22,6 +22,7 @@ import java.util.List;
 public class Slam extends Ability implements OnSneaking, OnLanding {
     protected HashMap<Player, Double> yVelocity = new HashMap<Player, Double>();
     private final int damage = 8;
+    private double power = 1;
 
     public Slam() {
         this.name = "Slam";
@@ -34,13 +35,24 @@ public class Slam extends Ability implements OnSneaking, OnLanding {
 
         this.setup();
     }
+
+    @Override
+    public void setPower(double power) {
+        double i = 1;
+        while (power >= 1.25) {
+            i++;
+            power -= 0.25;
+        }
+        this.power = i;
+    }
+
     @Override
     public void OnSneaking(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
         Vector playerVelocity = player.getVelocity();
         if (!player.isOnGround()) {
-            playerVelocity.setY(playerVelocity.getY() - 0.1);
+            playerVelocity.setY(playerVelocity.getY() - (0.1 * this.power));
             player.setVelocity(playerVelocity);
             this.yVelocity.put(player, playerVelocity.getY());
         }
@@ -49,6 +61,9 @@ public class Slam extends Ability implements OnSneaking, OnLanding {
     @Override
     public void OnLanding(PlayerMoveEvent event) {
         Player player = event.getPlayer();
+
+        if (!player.isSneaking())
+            return;
 
         if (player.getCooldown(this.material) > 0)
             return;

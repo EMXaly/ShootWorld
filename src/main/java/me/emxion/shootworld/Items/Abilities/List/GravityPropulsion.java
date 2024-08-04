@@ -10,6 +10,12 @@ public class GravityPropulsion extends Ability implements OnLeftClick {
     public GravityPropulsion() {
         // playerLocation.distance(ProjectileLocation)
     }
+
+    @Override
+    public void setPower(double power) {
+
+    }
+
     @Override
     public void OnLeftClick(PlayerInteractEvent event) {
 

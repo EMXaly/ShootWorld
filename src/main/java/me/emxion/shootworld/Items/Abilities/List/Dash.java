@@ -19,6 +19,8 @@ public class Dash extends Ability implements OnSwapingItem, OnLanding {
     private final float velocityMult = 1.5f;
     private HashMap<Player, Location> locations = new HashMap<>();
 
+    private double power = 1;
+
     public Dash() {
         this.name = "Dash";
         this.material = Material.FIREWORK_ROCKET;
@@ -30,6 +32,12 @@ public class Dash extends Ability implements OnSwapingItem, OnLanding {
 
         this.setup();
     }
+
+    @Override
+    public void setPower(double power) {
+        this.power = power;
+    }
+
     @Override
     public void OnSwapItem(PlayerSwapHandItemsEvent event) {
         Player player = event.getPlayer();
@@ -41,7 +49,7 @@ public class Dash extends Ability implements OnSwapingItem, OnLanding {
         Vector direction = playerLocation.getDirection(); // récupére la direction où regarde le joueur
         Vector playerVelocity = player.getVelocity().multiply(this.velocityMult);
         playerVelocity.setY(0);
-        Vector directionVelocity = direction.multiply(this.velocityMult);
+        Vector directionVelocity = direction.multiply(this.velocityMult).multiply(this.power);
         player.setVelocity(playerVelocity.add(directionVelocity));
 
         player.getWorld().playSound(playerLocation, this.sound, SoundCategory.PLAYERS, this.volume, this.pitch);

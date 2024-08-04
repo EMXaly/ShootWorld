@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 public class CrazedKiller extends Heal implements OnKill {
     public CrazedKiller() {
         this.name = "CrazedKiller";
-        this.material = Material.POTION;
+        this.material = Material.SPLASH_POTION;
         this.item = new ItemStack(this.material, 1);
         this.healing = 10;
         this.cooldown = 0;

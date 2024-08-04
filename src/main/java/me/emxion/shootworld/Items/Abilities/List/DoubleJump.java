@@ -3,6 +3,7 @@ package me.emxion.shootworld.Items.Abilities.List;
 import me.emxion.shootworld.Items.Abilities.Ability;
 import me.emxion.shootworld.Items.Abilities.Interfaces.OnFlying;
 import me.emxion.shootworld.Items.Abilities.Interfaces.OnLanding;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,6 +20,9 @@ public class DoubleJump extends Ability implements OnFlying, OnLanding {
     protected HashMap<Player, Integer> maxJump = new HashMap<Player, Integer>();
     protected HashMap<Player, Integer> nbJumps = new HashMap<Player, Integer>();
     private HashMap<Player, Location> locations = new HashMap<>();
+
+    private int power = 0;
+
     public DoubleJump() {
         this.name = "DoubleJump";
         this.material = Material.PISTON;
@@ -26,6 +30,20 @@ public class DoubleJump extends Ability implements OnFlying, OnLanding {
         this.cooldown = 999999999;
 
         this.setup();
+    }
+
+    @Override
+    public void setPower(double power) {
+        int i = 0;
+        while (power >= 1.25) {
+            i++;
+            power -= 0.25;
+        }
+
+        this.power = i;
+
+        for (Player player: Bukkit.getOnlinePlayers())
+            this.addPlayer(player);
     }
 
     @Override
@@ -73,7 +91,7 @@ public class DoubleJump extends Ability implements OnFlying, OnLanding {
     }
 
     public void addPlayer(Player player) {
-        this.maxJump.put(player, 2);
+        this.maxJump.put(player, 2 + this.power);
         this.nbJumps.put(player, 0);
     }
 

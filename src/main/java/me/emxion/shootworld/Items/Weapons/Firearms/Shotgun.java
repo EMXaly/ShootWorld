@@ -17,7 +17,7 @@ public class Shotgun extends Firearm {
         this.nbProjectile = 8;
         this.hasGravity = false;
         this.magazineSize = 6;
-        this.reloadTime = 17;
+        this.reloadTime = 15;
         this.accuracy = 0.075;
         this.projectileVelocity = 4;
         this.volume = 3f;
@@ -28,13 +28,19 @@ public class Shotgun extends Firearm {
 
     @Override
     public void reloading(Player player) {
-        if (this.currentAmmo.get(player) <= 0)
-            player.setCooldown(this.material, this.reloadTime);
+        if (this.currentAmmo.get(player) <= 0) {
+            player.setCooldown(this.material, this.reloadTime + this.fireRate);
+            this.emptyMag(player);
+        } else
+            this.notEmptyMag(player);
 
+    }
+
+    private void emptyMag(Player player) {
         int reloading = new BukkitRunnable() {
             @Override
             public void run() {
-                currentAmmo.replace(player, currentAmmo.get(player) +1);
+                currentAmmo.replace(player, currentAmmo.get(player) + 1);
                 ItemStack item = checkPlayerGun(player);
                 printAmmo(player, item);
                 player.playSound(player.getLocation(), Sound.BLOCK_CHAIN_HIT, 1.5f, 1f);
@@ -42,7 +48,25 @@ public class Shotgun extends Firearm {
                 if (currentAmmo.get(player) < magazineSize)
                     reloading(player);
             }
-        }.runTaskLaterAsynchronously(ShootWorld.getPlugin(ShootWorld.class), this.reloadTime).getTaskId();
+        }.runTaskLaterAsynchronously(ShootWorld.getPlugin(ShootWorld.class), this.reloadTime + this.fireRate).getTaskId();
+
+        this.reloads.put(player, reloading);
+    }
+
+    private void notEmptyMag(Player player) {
+        int reloading = new BukkitRunnable() {
+            @Override
+            public void run() {
+                currentAmmo.replace(player, currentAmmo.get(player) + 1);
+                ItemStack item = checkPlayerGun(player);
+                printAmmo(player, item);
+                player.playSound(player.getLocation(), Sound.BLOCK_CHAIN_HIT, 1.5f, 1f);
+
+                if (currentAmmo.get(player) < magazineSize)
+                    reloading(player);
+            }
+        }.runTaskLaterAsynchronously(ShootWorld.getPlugin(ShootWorld.class), this.reloadTime + player.getCooldown(this.material)).getTaskId();
+
         this.reloads.put(player, reloading);
     }
 }

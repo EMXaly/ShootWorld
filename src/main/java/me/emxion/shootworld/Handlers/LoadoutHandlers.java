@@ -13,12 +13,12 @@ import org.bukkit.inventory.ItemStack;
 import java.io.IOException;
 
 public class LoadoutHandlers implements Listener {
-    private Loadout loadout = new Loadout();
     private WeaponGUI weaponGUI = new WeaponGUI();
     private HealGUI healGUI = new HealGUI();
     private AbilityGUI abilityGUI = new AbilityGUI();
 
     private PlayersLoadouts playersLoadouts = new PlayersLoadouts();
+    private Loadout loadout = new Loadout(this.playersLoadouts);
 
     public PlayersLoadouts getPlayersLoadouts() {
         return this.playersLoadouts;

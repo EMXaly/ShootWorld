@@ -23,15 +23,22 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class DeathMatch implements Gamemode {
-    private final String name = "DeathMatch";
+public class LunaticDeathMatch implements Gamemode {
+
+    private final String name = "LunaticDeathMatch";
     LoadItems loadItems;
     LoadoutHandlers loadoutHandlers;
     PlayersLoadouts playersLoadouts;
     private final int lvlNeeded = 30;
     private final Stats stats = new Stats();
 
-    public DeathMatch(LoadItems loadItems, LoadoutHandlers loadoutHandlers) {
+    private final float weaponDamage = 1.5f;
+    private final double weaponReloadTime = 0.75;
+    private final double abilityPower = 1.5;
+    private final double abilityCooldown = 0.5;
+
+
+    public LunaticDeathMatch(LoadItems loadItems, LoadoutHandlers loadoutHandlers) {
         this.loadItems = loadItems;
         this.loadoutHandlers = loadoutHandlers;
     }
@@ -49,6 +56,17 @@ public class DeathMatch implements Gamemode {
         world.setDifficulty(Difficulty.PEACEFUL);
 
         this.playersLoadouts = this.loadoutHandlers.getPlayersLoadouts();
+
+        for (Weapon weapon: this.loadItems.getWeapons()) {
+            weapon.setDamage(weapon.getDamage() * this.weaponDamage);
+            weapon.setReloadTime((int) (weapon.getReloadTime() * this.weaponReloadTime));
+        }
+
+        for (Ability ability: this.loadItems.getAbilities()) {
+            ability.setPower(this.abilityPower);
+            ability.setCooldown((int) (ability.getCooldown() * abilityCooldown));
+        }
+
 
         BukkitRunnable visualTask = new BukkitRunnable() {
             int i = 3;
@@ -163,10 +181,21 @@ public class DeathMatch implements Gamemode {
 
         }
 
+
         try {
             this.stats.onEnd();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+
+        for (Weapon weapon: this.loadItems.getWeapons()) {
+            weapon.setDamage(weapon.getDamage() / this.weaponDamage);
+            weapon.setReloadTime((int) (weapon.getReloadTime() / this.weaponReloadTime));
+        }
+
+        for (Ability ability: this.loadItems.getAbilities()) {
+            ability.setPower(1);
+            ability.setCooldown((int) (ability.getCooldown() / abilityCooldown));
         }
     }
 }

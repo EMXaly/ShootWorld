@@ -4,6 +4,7 @@ import me.emxion.shootworld.Items.Abilities.Ability;
 import me.emxion.shootworld.Items.Item;
 import me.emxion.shootworld.Items.LoadItems;
 import me.emxion.shootworld.Items.Weapons.Weapon;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,21 +27,18 @@ public class GiveItem implements CommandExecutor {
         if (args.length <= 1)
             return false;
 
-        Player player = (Player) sender;
-        Inventory inv = player.getInventory();
+        Player player = Bukkit.getPlayer(args[0]);
 
-        if (args[1].equalsIgnoreCase("all")) {
-            if (args[0].equalsIgnoreCase("item"))
-                return this.giveAllItems(inv);
-            if (args[0].equalsIgnoreCase("weapons"))
-                return this.giveAllWeapon(inv);
-            if (args[0].equalsIgnoreCase("ability"))
-                return this.giveAllAbilities(inv);
-            if (args[0].equalsIgnoreCase("gun"))
-                return this.giveAllGuns(inv);
-            if (args[0].equalsIgnoreCase("melee"))
-                return this.giveAllMelees(inv);
-        }
+        if (player == null)
+            return false;
+
+        Inventory playerInv = player.getInventory();
+
+        for (Item item: this.items.getItems())
+            if (item.getName().equals(args[1])) {
+                playerInv.addItem(item.getItem());
+                return true;
+            }
 
         return false;
     }

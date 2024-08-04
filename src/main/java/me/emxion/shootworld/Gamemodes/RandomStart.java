@@ -100,21 +100,25 @@ public class RandomStart implements Gamemode {
 
     @Override
     public void onEnd(List<Player> players) {
-        int i = 1;
-        Collections.sort(players, Comparator.comparingInt(Player::getLevel).reversed());
-        for (Player player: players) {
-            player.setGameMode(GameMode.SPECTATOR);
-            player.getInventory().clear();
-            Bukkit.broadcastMessage(i + ". " + player.getName() + " (LVL " + player.getLevel() + ")");
-            
-            if (i == 1)
-                player.showTitle(Title.title(Component.text("1er"), Component.empty(), Title.Times.times(Duration.ZERO, Duration.ofMillis(1500), Duration.ofMillis(500))));
-            else
-                player.showTitle(Title.title(Component.text(i + "ème"), Component.empty(), Title.Times.times(Duration.ZERO, Duration.ofMillis(1500), Duration.ofMillis(500))));
+        try {
+            int i = 1;
+            players.sort(Comparator.comparingInt(Player::getLevel).reversed());
+            for (Player player: players) {
+                player.setGameMode(GameMode.SPECTATOR);
+                player.getInventory().clear();
+                Bukkit.broadcastMessage(i + ". " + player.getName() + " (LVL " + player.getLevel() + ")");
 
-            player.setPlayerListName(player.getName());
+                if (i == 1)
+                    player.showTitle(Title.title(Component.text("1er"), Component.empty(), Title.Times.times(Duration.ZERO, Duration.ofMillis(1500), Duration.ofMillis(500))));
+                else
+                    player.showTitle(Title.title(Component.text(i + "ème"), Component.empty(), Title.Times.times(Duration.ZERO, Duration.ofMillis(1500), Duration.ofMillis(500))));
 
-            i++;
+                player.setPlayerListName(player.getName());
+
+                i++;
+            }
+        } catch (Exception ignored) {
+
         }
 
         try {

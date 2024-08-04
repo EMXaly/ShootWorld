@@ -26,6 +26,9 @@ public class JumpPad extends Ability implements OnLeftClick, OnMoving, OnLanding
     private final int destroyTime = 200;
     private HashMap<Block, List<Player>> usedByPlayers = new HashMap<>();
     private HashMap<Player, Location> locations = new HashMap<>();
+
+    private double power = 1;
+
     public JumpPad() {
         this.name = "JumpPad";
         this.material = Material.WAXED_WEATHERED_CUT_COPPER_SLAB;
@@ -37,6 +40,12 @@ public class JumpPad extends Ability implements OnLeftClick, OnMoving, OnLanding
 
         this.setup();
     }
+
+    @Override
+    public void setPower(double power) {
+        this.power = power;
+    }
+
     @Override
     public void OnLeftClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -114,7 +123,7 @@ public class JumpPad extends Ability implements OnLeftClick, OnMoving, OnLanding
 
 
             @NotNull Vector velocity = player.getVelocity();
-            player.setVelocity(velocity.setY(this.velocityGain));
+            player.setVelocity(velocity.setY(this.velocityGain).multiply(this.power));
             player.getWorld().playSound(player.getLocation(), this.sound, SoundCategory.PLAYERS, this.volume, this.pitch);
             this.usedByPlayers.get(block).add(player);
             //player.sendMessage("+1 used jumppad");

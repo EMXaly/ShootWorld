@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 public class QuickHeal extends Heal implements OnRightClick {
     public QuickHeal() {
         this.name = "QuickHeal";
-        this.material = Material.SPLASH_POTION;
+        this.material = Material.POTION;
         this.item = new ItemStack(this.material, 1);
         this.healing = 12;
         this.cooldown = 200;
@@ -27,5 +27,6 @@ public class QuickHeal extends Heal implements OnRightClick {
 
         player.setHealth(Math.min(player.getHealthScale(), player.getHealth() + this.healing));
         player.setCooldown(this.material, this.cooldown);
+
     }
 }

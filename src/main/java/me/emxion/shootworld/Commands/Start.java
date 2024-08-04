@@ -24,6 +24,9 @@ public class Start implements CommandExecutor {
         if (args.length == 1) {
             for (Gamemode gm: this.gamemodes)
                 if (gm.getName().equals(args[0])) {
+                    if (this.plugin.getGamemode() != null)
+                        this.plugin.getGamemode().onEnd((List<Player>) Bukkit.getOnlinePlayers());
+
                     this.plugin.setGamemode(gm);
                     gm.onStart((List<Player>) Bukkit.getOnlinePlayers());
                     return true;

@@ -5,6 +5,7 @@ import me.emxion.shootworld.Items.Heals.Interfaces.OnRightClick;
 import me.emxion.shootworld.Items.Heals.Interfaces.OnSpeed;
 import me.emxion.shootworld.Items.Item;
 import me.emxion.shootworld.Items.LoadItems;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,12 +23,14 @@ public class HealsHandlers implements Listener {
     @EventHandler
     public void onRightClick(PlayerInteractEvent event) {
         if (event.getAction().isRightClick()) {
-            event.setCancelled(true);
             Player player = event.getPlayer();
+            if (player.getGameMode() != GameMode.CREATIVE)
+                event.setCancelled(true);
+
             if (player.isDead())
                 return;
 
-            for (Item item: loadItems.getOnRightClick()) {
+            for (Item item: loadItems.getHeals()) {
                 if (player.getItemInHand().getType() == item.getItem().getType()) {
                     OnRightClick onRightClick = (OnRightClick) item;
                     onRightClick.onRightClick(event);

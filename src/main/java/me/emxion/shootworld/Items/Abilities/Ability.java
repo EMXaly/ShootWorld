@@ -17,6 +17,14 @@ public abstract class Ability extends Item {
     public int getCooldown() {
         return cooldown;
     }
+
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
+    }
+
+    public abstract void setPower(double power);
+
+
     public void finishCooldown(Player player) {
         new BukkitRunnable() {
             @Override

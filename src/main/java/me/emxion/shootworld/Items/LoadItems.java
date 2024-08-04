@@ -11,6 +11,8 @@ import me.emxion.shootworld.Items.Heals.List.CrazedKiller;
 import me.emxion.shootworld.Items.Heals.List.QuickHeal;
 import me.emxion.shootworld.Items.Heals.List.SpeedDemon;
 import me.emxion.shootworld.Items.Weapons.Firearms.*;
+import me.emxion.shootworld.Items.Weapons.Flames.FlameThrower;
+import me.emxion.shootworld.Items.Weapons.Flames.FlareGun;
 import me.emxion.shootworld.Items.Weapons.Launchers.*;
 import me.emxion.shootworld.Items.Weapons.Weapon;
 
@@ -54,6 +56,9 @@ public class LoadItems {
         this.items.add(new RocketLauncher());
         this.items.add(new GrenadeLauncher());
         this.items.add(new Shrapnel());
+
+        this.items.add(new FlameThrower());
+        this.items.add(new FlareGun());
 
         this.items.add(new SpeedDemon());
         this.items.add(new CrazedKiller());

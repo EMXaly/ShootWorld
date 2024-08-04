@@ -22,8 +22,9 @@ public class Slide extends Ability implements OnSneaking, OnLanding, OnJumping {
     private final  Vector storeVelocityBoost = new Vector(1.5, 1, 1.5);
     private final Vector antiGravityBoost = new Vector(0.94, 0, 0.94);
     private final Vector slideBoost = new Vector(0.95, 1, 0.95);
-    private final double minVelocityJump = 0.7;
+    private final double minVelocityJump = 0.5;
     private final double jumpBoost = 0.5;
+    private Vector power = new Vector(0, 0, 0);
     public Slide() {
         this.name = "Slide";
         this.material = Material.ICE;
@@ -35,19 +36,32 @@ public class Slide extends Ability implements OnSneaking, OnLanding, OnJumping {
 
         this.setup();
     }
+
+    @Override
+    public void setPower(double power) {
+        return;
+
+        /*double i = 0;
+        while (power >= 1.25) {
+            i += 0.005;
+            power -= 0.25;
+        }
+        this.power = new Vector(i, i, i);*/
+    }
+
     @Override
     public void OnSneaking(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
         if (!player.isOnGround() && player.hasGravity()) {
             Vector playerVelocity = player.getVelocity();
-            this.playersVelocities.put(player, playerVelocity.multiply(this.storeVelocityBoost));
+            this.playersVelocities.put(player, playerVelocity.multiply(this.storeVelocityBoost.add(this.power)));
         }
 
         // Antigravity combo
         if (!player.hasGravity()) {
             Vector playerVelocity = player.getVelocity();
-            playerVelocity.multiply(this.antiGravityBoost);
+            playerVelocity.multiply(this.antiGravityBoost.add(this.power));
             player.setVelocity(playerVelocity);
         }
     }

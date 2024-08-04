@@ -3,17 +3,16 @@ package me.emxion.shootworld;
 
 import me.emxion.shootworld.Commands.GiveItem;
 import me.emxion.shootworld.Commands.Start;
-import me.emxion.shootworld.Gamemodes.DeathMatch;
-import me.emxion.shootworld.Gamemodes.Gamemode;
-import me.emxion.shootworld.Gamemodes.RandomStart;
-import me.emxion.shootworld.Gamemodes.Randomizer;
+import me.emxion.shootworld.Gamemodes.*;
 import me.emxion.shootworld.Handlers.*;
 import me.emxion.shootworld.Items.LoadItems;
 import me.emxion.shootworld.Loadouts.Loadout;
+import me.emxion.shootworld.TabCompleter.GiveItemCompleter;
 import me.emxion.shootworld.TabCompleter.StartCompleter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -35,8 +34,9 @@ public final class ShootWorld extends JavaPlugin {
         HealsHandlers healsHandlers = new HealsHandlers(loadItems);
         Bukkit.getPluginManager().registerEvents(healsHandlers, this);
 
-        Loadout loadout = new Loadout();
+
         LoadoutHandlers loadoutHandlers = new LoadoutHandlers();
+        Loadout loadout = new Loadout(loadoutHandlers.getPlayersLoadouts());
         Bukkit.getPluginManager().registerEvents(loadoutHandlers, this);
 
         //Gamemodes
@@ -44,9 +44,11 @@ public final class ShootWorld extends JavaPlugin {
         gamemodes.add(new Randomizer(loadItems));
         gamemodes.add(new RandomStart(loadItems));
         gamemodes.add(new DeathMatch(loadItems, loadoutHandlers));
+        gamemodes.add(new LunaticDeathMatch(loadItems, loadoutHandlers));
 
         //Commands
         getCommand("SWGive").setExecutor(new GiveItem(loadItems));
+        getCommand("SWGive").setTabCompleter(new GiveItemCompleter(loadItems));
         getCommand("SWStart").setExecutor(new Start(this, gamemodes));
         getCommand("SWStart").setTabCompleter(new StartCompleter(gamemodes));
         getCommand("loadout").setExecutor(new me.emxion.shootworld.Commands.Loadout(loadout));
@@ -56,6 +58,7 @@ public final class ShootWorld extends JavaPlugin {
         world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
         world.setGameRule(GameRule.SHOW_DEATH_MESSAGES, false);
         world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
+        world.setGameRule(GameRule.DO_FIRE_TICK, false);
 
         getLogger().info("ShootWorld Enable");
     }

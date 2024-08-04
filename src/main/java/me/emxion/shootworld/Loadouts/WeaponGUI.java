@@ -1,6 +1,8 @@
 package me.emxion.shootworld.Loadouts;
 
 import me.emxion.shootworld.Items.Weapons.Firearms.*;
+import me.emxion.shootworld.Items.Weapons.Flames.FlameThrower;
+import me.emxion.shootworld.Items.Weapons.Flames.FlareGun;
 import me.emxion.shootworld.Items.Weapons.Launchers.*;
 import me.emxion.shootworld.Items.Weapons.Weapon;
 import org.apache.commons.lang3.tuple.Pair;
@@ -22,7 +24,7 @@ public class WeaponGUI {
 
     public WeaponGUI() {
         // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
-        this.inv = Bukkit.createInventory(null, 27, "Armes");
+        this.inv = Bukkit.createInventory(null, 36, "Armes");
 
         this.weaponsSlots.put(0, new SMG());
         this.weaponsSlots.put(1, new LMG());
@@ -32,6 +34,8 @@ public class WeaponGUI {
         this.weaponsSlots.put(9, new RocketLauncher());
         this.weaponsSlots.put(10, new GrenadeLauncher());
         this.weaponsSlots.put(11, new Shrapnel());
+        this.weaponsSlots.put(18, new FlameThrower());
+        this.weaponsSlots.put(19, new FlareGun());
 
 
         // Put the items into the inventory
