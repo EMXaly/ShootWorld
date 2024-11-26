@@ -13,12 +13,12 @@ public class Shotgun extends Firearm {
         this.material = Material.LAPIS_LAZULI;
         this.item = new ItemStack(this.material, 1);
         this.damage = 1;
-        this.fireRate = 15;
+        this.fireRate = 19;
         this.nbProjectile = 8;
         this.hasGravity = false;
         this.magazineSize = 6;
         this.reloadTime = 15;
-        this.accuracy = 0.075;
+        this.accuracy = 0.08;
         this.projectileVelocity = 4;
         this.volume = 3f;
         this.pitch = 2f;

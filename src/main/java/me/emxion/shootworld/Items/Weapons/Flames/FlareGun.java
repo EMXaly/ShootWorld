@@ -13,11 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlareGun extends Flames {
+    protected int flamesDuration;
+
     public FlareGun() {
         this.name = "FlareGun";
         this.material = Material.BLAZE_ROD;
         this.item = new ItemStack(this.material, 1);
-        this.damage = 4;
+        this.damage = 6;
         this.fireRate = 7;
         this.nbProjectile = 1;
         this.hasGravity = true;
@@ -28,7 +30,8 @@ public class FlareGun extends Flames {
         this.volume = 2f;
         this.pitch = 2.5f;
         this.timer = 28;
-        this.fireTick = 60;
+        this.fireTick = 175;
+        this.flamesDuration = 60;
 
         this.setup();
     }
@@ -64,7 +67,7 @@ public class FlareGun extends Flames {
                         block.setType(Material.AIR);
                 }
             }
-        }.runTaskLater(ShootWorld.getPlugin(ShootWorld.class), this.fireTick);
+        }.runTaskLater(ShootWorld.getPlugin(ShootWorld.class), this.flamesDuration);
 
 
     }

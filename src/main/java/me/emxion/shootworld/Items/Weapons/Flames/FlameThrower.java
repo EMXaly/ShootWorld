@@ -11,17 +11,17 @@ public class FlameThrower extends Flames{
         this.material = Material.BLAZE_POWDER;
         this.item = new ItemStack(this.material, 1);
         this.damage = 1;
-        this.fireRate = 4;
+        this.fireRate = 3;
         this.nbProjectile = 4;
         this.hasGravity = false;
         this.magazineSize = 20;
         this.reloadTime = 45;
         this.accuracy = 0.33;
-        this.projectileVelocity = 0.5;
+        this.projectileVelocity = 0.75;
         this.volume = 2f;
         this.pitch = 2f;
         this.timer = 10;
-        this.fireTick = 80;
+        this.fireTick = 8;
 
         this.setup();
     }
