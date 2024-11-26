@@ -20,7 +20,7 @@ public abstract class Weapon extends Item {
     protected int nbProjectile;
     protected boolean hasGravity;
     protected int magazineSize;
-    protected HashMap<Player, Integer> currentAmmo = new HashMap<Player, Integer>();
+    protected HashMap<Player, Integer> currentAmmo = new HashMap<>();
     protected int reloadTime;
     protected HashMap<Player, Integer> reloads = new HashMap<>();
     protected double accuracy;
