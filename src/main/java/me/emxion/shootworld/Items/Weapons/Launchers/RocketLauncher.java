@@ -12,13 +12,13 @@ public class RocketLauncher extends Launcher {
         this.name = "RocketLauncher";
         this.material = Material.COAL;
         this.item = new ItemStack(this.material, 1);
-        this.damage = 6;
+        this.damage = 8;
         this.power = 2.5f;
         this.fireRate = 25;
         this.magazineSize = 4;
         this.reloadTime = 19;
         this.accuracy = 0.0225;
-        this.projectileVelocity = 1.75;
+        this.projectileVelocity = 2;
         this.volume = 3.5f;
         this.pitch = 0.75f;
         this.nbProjectile = 1;

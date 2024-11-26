@@ -89,8 +89,11 @@ public abstract class Flames extends Weapon {
 
         damaged.damage(this.damage, damager);
         damaged.setNoDamageTicks(1);
-        damaged.setFireTicks(this.fireTick);
         damaged.setVelocity(damaged.getVelocity().multiply(0.5));
+
+        if (damaged.getFireTicks() < 0)
+            damaged.setFireTicks(0);
+        damaged.setFireTicks(damaged.getFireTicks() + this.fireTick);
     }
 
     public abstract void burning(ProjectileHitEvent event);
