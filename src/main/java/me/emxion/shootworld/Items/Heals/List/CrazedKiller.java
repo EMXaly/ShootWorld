@@ -1,13 +1,13 @@
 package me.emxion.shootworld.Items.Heals.List;
 
 import me.emxion.shootworld.Items.Heals.Heal;
-import me.emxion.shootworld.Items.Heals.Interfaces.OnKill;
+import me.emxion.shootworld.Items.Heals.Interfaces.IOnKill;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class CrazedKiller extends Heal implements OnKill {
+public class CrazedKiller extends Heal implements IOnKill {
     public CrazedKiller() {
         this.name = "CrazedKiller";
         this.material = Material.SPLASH_POTION;

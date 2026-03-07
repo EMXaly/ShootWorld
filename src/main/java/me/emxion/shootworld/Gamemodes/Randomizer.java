@@ -58,7 +58,7 @@ public class Randomizer implements Gamemode{
                         player.getInventory().clear();
                         player.setGameMode(GameMode.ADVENTURE);
                         randomStuff(player, loadItems, nbWeapons, nbHeals, nbAbilities);
-                        player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(40, 1));
+                        player.addPotionEffect(PotionEffectType.RESISTANCE.createEffect(40, 1));
 
                         player.setPlayerListName(player.getName() + " [Lvl: " + 0 + "]");
                     }
@@ -92,7 +92,7 @@ public class Randomizer implements Gamemode{
     public void onPlayerRespawn(Player player) {
         player.getInventory().clear();
         this.randomStuff(player, this.loadItems, this.nbWeapons, this.nbHeals, this.nbAbilities);
-        player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(60, 2));
+        player.addPotionEffect(PotionEffectType.RESISTANCE.createEffect(60, 2));
     }
 
     @Override

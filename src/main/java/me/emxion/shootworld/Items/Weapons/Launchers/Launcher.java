@@ -64,7 +64,7 @@ public class Launcher extends Weapon {
         Location explosion = event.getLocation();
         World world = tnt.getWorld();
 
-        world.spawnParticle(Particle.EXPLOSION_LARGE, explosion, (int) this.power);
+        world.spawnParticle(Particle.EXPLOSION, explosion, (int) this.power);
         world.playSound(explosion, Sound.ENTITY_GENERIC_EXPLODE, this.power * 2, 1f);
 
 

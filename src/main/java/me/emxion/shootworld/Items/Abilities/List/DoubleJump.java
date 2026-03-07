@@ -1,8 +1,8 @@
 package me.emxion.shootworld.Items.Abilities.List;
 
 import me.emxion.shootworld.Items.Abilities.Ability;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnFlying;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnLanding;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnFlying;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnLanding;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DoubleJump extends Ability implements OnFlying, OnLanding {
+public class DoubleJump extends Ability implements IOnFlying, IOnLanding {
     protected HashMap<Player, Integer> maxJump = new HashMap<Player, Integer>();
     protected HashMap<Player, Integer> nbJumps = new HashMap<Player, Integer>();
-    private HashMap<Player, Location> locations = new HashMap<>();
+    private final HashMap<Player, Location> locations = new HashMap<>();
 
     private int power = 0;
 
@@ -47,7 +47,7 @@ public class DoubleJump extends Ability implements OnFlying, OnLanding {
     }
 
     @Override
-    public void OnFlying(PlayerToggleFlightEvent event) {
+    public void onFlying(PlayerToggleFlightEvent event) {
         Player player = event.getPlayer();
 
         if (player.getCooldown(this.material) > 0)
@@ -76,7 +76,7 @@ public class DoubleJump extends Ability implements OnFlying, OnLanding {
     }
 
     @Override
-    public void OnLanding(PlayerMoveEvent event) {
+    public void onLanding(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
         this.nbJumps.replace(player, 0);

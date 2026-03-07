@@ -2,6 +2,6 @@ package me.emxion.shootworld.Items.Heals.Interfaces;
 
 import org.bukkit.event.player.PlayerMoveEvent;
 
-public interface OnSpeed {
-    public void onSpeed(PlayerMoveEvent event);
+public interface IOnSpeed {
+    void onSpeed(PlayerMoveEvent event);
 }

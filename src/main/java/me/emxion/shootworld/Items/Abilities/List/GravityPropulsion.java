@@ -1,12 +1,12 @@
 package me.emxion.shootworld.Items.Abilities.List;
 
 import me.emxion.shootworld.Items.Abilities.Ability;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnLeftClick;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnLeftClick;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
 
-public class GravityPropulsion extends Ability implements OnLeftClick {
+public class GravityPropulsion extends Ability implements IOnLeftClick {
     public GravityPropulsion() {
         // playerLocation.distance(ProjectileLocation)
     }
@@ -17,7 +17,7 @@ public class GravityPropulsion extends Ability implements OnLeftClick {
     }
 
     @Override
-    public void OnLeftClick(PlayerInteractEvent event) {
+    public void onLeftClick(PlayerInteractEvent event) {
 
     }
 

@@ -1,15 +1,15 @@
 package me.emxion.shootworld.Items.Heals.List;
 
 import me.emxion.shootworld.Items.Heals.Heal;
-import me.emxion.shootworld.Items.Heals.Interfaces.OnSpeed;
+import me.emxion.shootworld.Items.Heals.Interfaces.IOnSpeed;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-public class SpeedDemon extends Heal implements OnSpeed {
-    private double minVelocity = 0.75;
+public class SpeedDemon extends Heal implements IOnSpeed {
+    private final double minVelocity = 0.75;
     public SpeedDemon() {
         this.name = "SpeedDemon";
         this.material = Material.LINGERING_POTION;

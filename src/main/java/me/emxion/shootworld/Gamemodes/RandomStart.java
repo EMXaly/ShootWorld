@@ -21,7 +21,6 @@ public class RandomStart implements Gamemode {
     private final int nbWeapons = 2;
     private final int nbHeals = 1;
     private final int nbAbilities = 4;
-    private final float heal = 4f;
     private final Stats stats = new Stats();
     public RandomStart(LoadItems loadItems) {
         this.loadItems = loadItems;
@@ -58,7 +57,7 @@ public class RandomStart implements Gamemode {
                         player.getInventory().clear();
                         player.setGameMode(GameMode.ADVENTURE);
                         randomStuff(player, loadItems, nbWeapons, nbHeals, nbAbilities);
-                        player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(40, 1));
+                        player.addPotionEffect(PotionEffectType.RESISTANCE.createEffect(40, 1));
 
                         player.setPlayerListName(player.getName() + " [Lvl: " + 0 + "]");
                     }
@@ -90,7 +89,7 @@ public class RandomStart implements Gamemode {
 
     @Override
     public void onPlayerRespawn(Player player) {
-        player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(60, 2));
+        player.addPotionEffect(PotionEffectType.RESISTANCE.createEffect(60, 2));
     }
 
     @Override

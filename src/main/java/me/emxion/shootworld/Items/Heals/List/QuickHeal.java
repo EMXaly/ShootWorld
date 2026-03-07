@@ -1,13 +1,13 @@
 package me.emxion.shootworld.Items.Heals.List;
 
 import me.emxion.shootworld.Items.Heals.Heal;
-import me.emxion.shootworld.Items.Heals.Interfaces.OnRightClick;
+import me.emxion.shootworld.Items.Heals.Interfaces.IOnRightClick;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class QuickHeal extends Heal implements OnRightClick {
+public class QuickHeal extends Heal implements IOnRightClick {
     public QuickHeal() {
         this.name = "QuickHeal";
         this.material = Material.POTION;

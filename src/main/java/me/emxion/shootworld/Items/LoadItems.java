@@ -4,9 +4,7 @@ import me.emxion.shootworld.Items.Abilities.Ability;
 import me.emxion.shootworld.Items.Abilities.Interfaces.*;
 import me.emxion.shootworld.Items.Abilities.List.*;
 import me.emxion.shootworld.Items.Heals.Heal;
-import me.emxion.shootworld.Items.Heals.Interfaces.OnKill;
-import me.emxion.shootworld.Items.Heals.Interfaces.OnRightClick;
-import me.emxion.shootworld.Items.Heals.Interfaces.OnSpeed;
+import me.emxion.shootworld.Items.Heals.Interfaces.*;
 import me.emxion.shootworld.Items.Heals.List.CrazedKiller;
 import me.emxion.shootworld.Items.Heals.List.QuickHeal;
 import me.emxion.shootworld.Items.Heals.List.SpeedDemon;
@@ -73,31 +71,31 @@ public class LoadItems {
                 this.abilities.add((Ability) i);
             if (i instanceof Weapon)
                 this.weapons.add((Weapon) i);
-            if (i instanceof OnLeftClick)
+            if (i instanceof IOnLeftClick)
                 this.onLeftClickItems.add(i);
-            if (i instanceof OnMoving)
+            if (i instanceof IOnMoving)
                 this.onMoving.add(i);
-            if (i instanceof OnSwapingItem)
+            if (i instanceof IOnSwapingItem)
                 this.onSwaping.add(i);
-            if (i instanceof OnFlying)
+            if (i instanceof IOnFlying)
                 this.onFlying.add(i);
-            if (i instanceof OnLanding)
+            if (i instanceof IOnLanding)
                 this.onLanding.add(i);
-            if (i instanceof OnSneaking)
+            if (i instanceof IOnSneaking)
                 this.onSneaking.add(i);
-            if (i instanceof OnJumping)
+            if (i instanceof IOnJumping)
                 this.onJumping.add(i);
-            if (i instanceof OnDeath)
+            if (i instanceof IOnDeath)
                 this.onDeath.add(i);
-            if (i instanceof OnProjectileHit)
+            if (i instanceof IOnProjectileHit)
                 this.onProjectileHit.add(i);
             if (i instanceof Heal)
                 this.heals.add((Heal) i);
-            if (i instanceof OnRightClick)
+            if (i instanceof IOnRightClick)
                 this.onRightClick.add(i);
-            if (i instanceof OnSpeed)
+            if (i instanceof IOnSpeed)
                 this.onSpeed.add(i);
-            if (i instanceof OnKill)
+            if (i instanceof IOnKill)
                 this.onKill.add(i);
         }
     }

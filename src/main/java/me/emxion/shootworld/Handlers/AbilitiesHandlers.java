@@ -1,11 +1,9 @@
 package me.emxion.shootworld.Handlers;
 
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
-import io.papermc.paper.event.entity.EntityMoveEvent;
 import me.emxion.shootworld.Items.Abilities.Interfaces.*;
 import me.emxion.shootworld.Items.Item;
 import me.emxion.shootworld.Items.LoadItems;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -17,7 +15,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 
 public class AbilitiesHandlers implements Listener {
-    private LoadItems loadItems;
+    private final LoadItems loadItems;
     public AbilitiesHandlers(LoadItems loadItems) {
         this.loadItems = loadItems;
     }
@@ -35,8 +33,8 @@ public class AbilitiesHandlers implements Listener {
             Inventory playerInventory = player.getInventory();
             for (Item item: loadItems.getOnLeftClickItems())
                 if (playerInventory.contains(item.getMaterial())) {
-                    OnLeftClick onLeftClick = (OnLeftClick) item;
-                    onLeftClick.OnLeftClick(event);
+                    IOnLeftClick onLeftClick = (IOnLeftClick) item;
+                    onLeftClick.onLeftClick(event);
                     return;
                 }
         }
@@ -52,14 +50,14 @@ public class AbilitiesHandlers implements Listener {
             player.setAllowFlight(true);
 
         for (Item item: loadItems.getOnMoving()) {
-            OnMoving onMoving = (OnMoving) item;
-            onMoving.OnMoving(event);
+            IOnMoving onMoving = (IOnMoving) item;
+            onMoving.onMoving(event);
         }
 
         if (player.isOnGround()) {
             for (Item item: loadItems.getOnLanding()) {
-                OnLanding onLanding = (OnLanding) item;
-                onLanding.OnLanding(event);
+                IOnLanding onLanding = (IOnLanding) item;
+                onLanding.onLanding(event);
             }
         }
 
@@ -68,8 +66,8 @@ public class AbilitiesHandlers implements Listener {
 
             for (Item item: loadItems.getOnSneaking()) {
                 if (playerInventory.contains(item.getMaterial())) {
-                    OnSneaking onSneaking = (OnSneaking) item;
-                    onSneaking.OnSneaking(event);
+                    IOnSneaking onSneaking = (IOnSneaking) item;
+                    onSneaking.onSneaking(event);
                 }
             }
         }
@@ -82,8 +80,8 @@ public class AbilitiesHandlers implements Listener {
 
         for (Item item: this.loadItems.getOnSwaping())
             if (playerInventory.contains(item.getMaterial())) {
-                OnSwapingItem swapItem = (OnSwapingItem) item;
-                swapItem.OnSwapItem(event);
+                IOnSwapingItem swapItem = (IOnSwapingItem) item;
+                swapItem.onSwapItem(event);
                 event.setCancelled(true);
             }
     }
@@ -102,8 +100,8 @@ public class AbilitiesHandlers implements Listener {
         if(event.isFlying() && (player.getGameMode() != GameMode.CREATIVE || player.getGameMode() != GameMode.SPECTATOR)) {
             for (Item item: loadItems.getOnFlying())
                 if (playerInventory.contains(item.getMaterial())) {
-                    OnFlying onFlying = (OnFlying) item;
-                    onFlying.OnFlying(event);
+                    IOnFlying onFlying = (IOnFlying) item;
+                    onFlying.onFlying(event);
                 }
         }
     }
@@ -114,8 +112,8 @@ public class AbilitiesHandlers implements Listener {
         Inventory playerInventory = player.getInventory();
         for (Item item: loadItems.getOnJumping()) {
             if (playerInventory.contains(item.getMaterial())) {
-                OnJumping onJumping = (OnJumping) item;
-                onJumping.OnJumping(event);
+                IOnJumping onJumping = (IOnJumping) item;
+                onJumping.onJumping(event);
             }
         }
     }
@@ -125,7 +123,7 @@ public class AbilitiesHandlers implements Listener {
         Projectile projectile = event.getEntity();
         for (Item item: loadItems.getOnProjectileHit()) {
             if (projectile.getName().equals(item.getName())) {
-                OnProjectileHit onProjectileHit = (OnProjectileHit) item;
+                IOnProjectileHit onProjectileHit = (IOnProjectileHit) item;
                 onProjectileHit.onProjectileHit(event);
             }
         }
@@ -137,7 +135,7 @@ public class AbilitiesHandlers implements Listener {
 
         for (Item item: loadItems.getOnDeath()) {
             if (playerInventory.contains(item.getMaterial())) {
-                OnDeath onDeath = (OnDeath) item;
+                IOnDeath onDeath = (IOnDeath) item;
                 onDeath.onDeath(event);
             }
         }

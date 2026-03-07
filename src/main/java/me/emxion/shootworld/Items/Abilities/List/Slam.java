@@ -1,8 +1,8 @@
 package me.emxion.shootworld.Items.Abilities.List;
 
 import me.emxion.shootworld.Items.Abilities.Ability;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnLanding;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnSneaking;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnLanding;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnSneaking;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-public class Slam extends Ability implements OnSneaking, OnLanding {
+public class Slam extends Ability implements IOnSneaking, IOnLanding {
     protected HashMap<Player, Double> yVelocity = new HashMap<Player, Double>();
     private final int damage = 8;
     private double power = 1;
@@ -47,7 +47,7 @@ public class Slam extends Ability implements OnSneaking, OnLanding {
     }
 
     @Override
-    public void OnSneaking(PlayerMoveEvent event) {
+    public void onSneaking(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
         Vector playerVelocity = player.getVelocity();
@@ -59,7 +59,7 @@ public class Slam extends Ability implements OnSneaking, OnLanding {
     }
 
     @Override
-    public void OnLanding(PlayerMoveEvent event) {
+    public void onLanding(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
         if (!player.isSneaking())

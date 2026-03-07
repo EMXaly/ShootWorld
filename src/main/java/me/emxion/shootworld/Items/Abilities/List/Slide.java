@@ -2,9 +2,9 @@ package me.emxion.shootworld.Items.Abilities.List;
 
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import me.emxion.shootworld.Items.Abilities.Ability;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnJumping;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnLanding;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnSneaking;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnJumping;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnLanding;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnSneaking;
 import me.emxion.shootworld.ShootWorld;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Slide extends Ability implements OnSneaking, OnLanding, OnJumping {
-    private HashMap<Player, Vector> playersVelocities = new HashMap<>();
+public class Slide extends Ability implements IOnSneaking, IOnLanding, IOnJumping {
+    private final HashMap<Player, Vector> playersVelocities = new HashMap<>();
     private final  Vector storeVelocityBoost = new Vector(1.5, 1, 1.5);
     private final Vector antiGravityBoost = new Vector(0.94, 0, 0.94);
     private final Vector slideBoost = new Vector(0.95, 1, 0.95);
@@ -50,7 +50,7 @@ public class Slide extends Ability implements OnSneaking, OnLanding, OnJumping {
     }
 
     @Override
-    public void OnSneaking(PlayerMoveEvent event) {
+    public void onSneaking(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
         if (!player.isOnGround() && player.hasGravity()) {
@@ -67,7 +67,7 @@ public class Slide extends Ability implements OnSneaking, OnLanding, OnJumping {
     }
 
     @Override
-    public void OnLanding(PlayerMoveEvent event) {
+    public void onLanding(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         if (player.isSneaking()) {
             if (this.playersVelocities.containsKey(player)) {
@@ -81,7 +81,7 @@ public class Slide extends Ability implements OnSneaking, OnLanding, OnJumping {
     }
 
     @Override
-    public void OnJumping(PlayerJumpEvent event) {
+    public void onJumping(PlayerJumpEvent event) {
         Player player = event.getPlayer();
         if (this.playersVelocities.containsKey(player)) {
             if (this.playersVelocities.get(player).length() > this.minVelocityJump)

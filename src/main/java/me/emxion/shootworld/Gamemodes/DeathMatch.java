@@ -19,7 +19,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -68,7 +67,7 @@ public class DeathMatch implements Gamemode {
                         player.setLevel(0);
                         player.setGameMode(GameMode.ADVENTURE);
                         givePlayerLoadout(player);
-                        player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(40, 1));
+                        player.addPotionEffect(PotionEffectType.RESISTANCE.createEffect(40, 1));
 
                         player.setPlayerListName(player.getName() + " [Lvl: " + 0 + "]");
                     }
@@ -132,7 +131,7 @@ public class DeathMatch implements Gamemode {
 
     @Override
     public void onPlayerRespawn(Player player) {
-        player.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(60, 2));
+        player.addPotionEffect(PotionEffectType.RESISTANCE.createEffect(60, 2));
     }
 
     @Override

@@ -1,8 +1,8 @@
 package me.emxion.shootworld.Items.Abilities.List;
 
 import me.emxion.shootworld.Items.Abilities.Ability;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnLeftClick;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnProjectileHit;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnLeftClick;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnProjectileHit;
 import me.emxion.shootworld.ShootWorld;
 import net.kyori.adventure.util.TriState;
 import org.bukkit.*;
@@ -18,9 +18,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-public class AntiGravity extends Ability implements OnLeftClick, OnProjectileHit {
-    private HashMap<LivingEntity, Integer> entitiesNoGrabity = new HashMap<>();
-    private int duration = 30;
+public class AntiGravity extends Ability implements IOnLeftClick, IOnProjectileHit {
+    private final HashMap<LivingEntity, Integer> entitiesNoGrabity = new HashMap<>();
+    private final int duration = 30;
     private double power = 1;
     public AntiGravity() {
         this.name = "AntiGravity";
@@ -40,7 +40,7 @@ public class AntiGravity extends Ability implements OnLeftClick, OnProjectileHit
     }
 
     @Override
-    public void OnLeftClick(PlayerInteractEvent event) {
+    public void onLeftClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
         if (player.getCooldown(this.material) > 0)

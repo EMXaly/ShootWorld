@@ -4,14 +4,13 @@ import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.Vector;
 
 import java.util.List;
 
 public class Shrapnel extends Launcher {
-    private int nbShrapnel = 6;
+    private final int nbShrapnel = 6;
     public Shrapnel() {
         this.name = "Shrapnel";
         this.material = Material.PRISMARINE_CRYSTALS;
@@ -37,7 +36,7 @@ public class Shrapnel extends Launcher {
         Location explosion = event.getLocation();
         World world = tnt.getWorld();
 
-        world.spawnParticle(Particle.EXPLOSION_LARGE, explosion, (int) this.power);
+        world.spawnParticle(Particle.EXPLOSION, explosion, (int) this.power);
         world.playSound(explosion, Sound.ENTITY_GENERIC_EXPLODE, this.power * 2, 1f);
 
         if (!tnt.isSilent()) {

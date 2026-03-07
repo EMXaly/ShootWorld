@@ -1,9 +1,9 @@
 package me.emxion.shootworld.Items.Abilities.List;
 
 import me.emxion.shootworld.Items.Abilities.Ability;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnLanding;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnLeftClick;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnMoving;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnLanding;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnLeftClick;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnMoving;
 import me.emxion.shootworld.ShootWorld;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class JumpPad extends Ability implements OnLeftClick, OnMoving, OnLanding {
+public class JumpPad extends Ability implements IOnLeftClick, IOnMoving, IOnLanding {
     private final int maxHeight = 5;
     private final float velocityGain = 2.25f;
     private final int destroyTime = 200;
-    private HashMap<Block, List<Player>> usedByPlayers = new HashMap<>();
-    private HashMap<Player, Location> locations = new HashMap<>();
+    private final HashMap<Block, List<Player>> usedByPlayers = new HashMap<>();
+    private final HashMap<Player, Location> locations = new HashMap<>();
 
     private double power = 1;
 
@@ -47,7 +47,7 @@ public class JumpPad extends Ability implements OnLeftClick, OnMoving, OnLanding
     }
 
     @Override
-    public void OnLeftClick(PlayerInteractEvent event) {
+    public void onLeftClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (player.getCooldown(this.material) > 0)
             return;
@@ -91,7 +91,7 @@ public class JumpPad extends Ability implements OnLeftClick, OnMoving, OnLanding
     }
 
     @Override
-    public void OnMoving(PlayerMoveEvent event) {
+    public void onMoving(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         int i = 0;
         boolean findBlock = false;
@@ -132,7 +132,7 @@ public class JumpPad extends Ability implements OnLeftClick, OnMoving, OnLanding
     }
 
     @Override
-    public void OnLanding(PlayerMoveEvent event) {
+    public void onLanding(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
         if (!this.locations.containsKey(player))

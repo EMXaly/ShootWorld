@@ -1,7 +1,7 @@
 name: ShootWorld
 version: '${project.version}'
 main: me.emxion.shootworld.ShootWorld
-api-version: '1.20'
+api-version: '1.21.1'
 commands:
   SWGive:
     description: Give item from the plugin ShootWorld

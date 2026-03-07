@@ -1,14 +1,15 @@
 package me.emxion.shootworld.Items.Abilities.List;
 
 import me.emxion.shootworld.Items.Abilities.Ability;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnDeath;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnFlying;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnLanding;
-import org.bukkit.*;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnDeath;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnFlying;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -17,8 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Teleporter extends Ability implements OnFlying, OnDeath {
-    private HashMap<Player, Item> playerTp = new HashMap<>();
+public class Teleporter extends Ability implements IOnFlying, IOnDeath {
+    private final HashMap<Player, Item> playerTp = new HashMap<>();
     public Teleporter() {
         this.name = "Teleporter";
         this.material = Material.ENDER_PEARL;
@@ -37,7 +38,7 @@ public class Teleporter extends Ability implements OnFlying, OnDeath {
     }
 
     @Override
-    public void OnFlying(PlayerToggleFlightEvent event) {
+    public void onFlying(PlayerToggleFlightEvent event) {
         Player player = event.getPlayer();
 
         if (player.getCooldown(this.material) > 0 && player.getCooldown(this.material) <= this.cooldown)

@@ -1,8 +1,6 @@
 package me.emxion.shootworld.Handlers;
 
-import me.emxion.shootworld.Items.Heals.Interfaces.OnKill;
-import me.emxion.shootworld.Items.Heals.Interfaces.OnRightClick;
-import me.emxion.shootworld.Items.Heals.Interfaces.OnSpeed;
+import me.emxion.shootworld.Items.Heals.Interfaces.*;
 import me.emxion.shootworld.Items.Item;
 import me.emxion.shootworld.Items.LoadItems;
 import org.bukkit.GameMode;
@@ -15,7 +13,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.Inventory;
 
 public class HealsHandlers implements Listener {
-    private LoadItems loadItems;
+    private final LoadItems loadItems;
 
     public HealsHandlers(LoadItems loadItems) {
         this.loadItems = loadItems;
@@ -32,7 +30,7 @@ public class HealsHandlers implements Listener {
 
             for (Item item: loadItems.getHeals()) {
                 if (player.getItemInHand().getType() == item.getItem().getType()) {
-                    OnRightClick onRightClick = (OnRightClick) item;
+                    IOnRightClick onRightClick = (IOnRightClick) item;
                     onRightClick.onRightClick(event);
                     return;
                 }
@@ -51,7 +49,7 @@ public class HealsHandlers implements Listener {
         Inventory playerInventory = player.getInventory();
         for (Item item: loadItems.getOnKill()) {
             if (playerInventory.contains(item.getMaterial())) {
-                OnKill onKill = (OnKill) item;
+                IOnKill onKill = (IOnKill) item;
                 onKill.onKill(event);
                 return;
             }
@@ -71,7 +69,7 @@ public class HealsHandlers implements Listener {
         Inventory playerInventory = player.getInventory();
         for (Item item: loadItems.getOnSpeed()) {
             if (playerInventory.contains(item.getItem())) {
-                OnSpeed onSpeed = (OnSpeed) item;
+                IOnSpeed onSpeed = (IOnSpeed) item;
                 onSpeed.onSpeed(event);
             }
         }

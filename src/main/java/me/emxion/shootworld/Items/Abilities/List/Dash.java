@@ -1,8 +1,8 @@
 package me.emxion.shootworld.Items.Abilities.List;
 
 import me.emxion.shootworld.Items.Abilities.Ability;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnLanding;
-import me.emxion.shootworld.Items.Abilities.Interfaces.OnSwapingItem;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnLanding;
+import me.emxion.shootworld.Items.Abilities.Interfaces.IOnSwapingItem;
 import me.emxion.shootworld.ShootWorld;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -15,9 +15,9 @@ import org.bukkit.util.Vector;
 import java.util.HashMap;
 import java.util.List;
 
-public class Dash extends Ability implements OnSwapingItem, OnLanding {
+public class Dash extends Ability implements IOnSwapingItem, IOnLanding {
     private final float velocityMult = 1.5f;
-    private HashMap<Player, Location> locations = new HashMap<>();
+    private final HashMap<Player, Location> locations = new HashMap<>();
 
     private double power = 1;
 
@@ -39,7 +39,7 @@ public class Dash extends Ability implements OnSwapingItem, OnLanding {
     }
 
     @Override
-    public void OnSwapItem(PlayerSwapHandItemsEvent event) {
+    public void onSwapItem(PlayerSwapHandItemsEvent event) {
         Player player = event.getPlayer();
 
         if (player.getCooldown(this.material) > 0)
@@ -73,7 +73,7 @@ public class Dash extends Ability implements OnSwapingItem, OnLanding {
     }
 
     @Override
-    public void OnLanding(PlayerMoveEvent event) {
+    public void onLanding(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
         if (!this.locations.containsKey(player))
