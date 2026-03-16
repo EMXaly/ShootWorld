@@ -26,10 +26,10 @@ public class FlareGun extends Flames {
         this.magazineSize = 1;
         this.reloadTime = 25;
         this.accuracy = 0;
-        this.projectileVelocity = 0.6;
+        this.projectileVelocity = 1.2;
         this.volume = 2f;
         this.pitch = 2.5f;
-        this.timer = 28;
+        this.timer = 30;
         this.fireTick = 175;
         this.flamesDuration = 60;
 

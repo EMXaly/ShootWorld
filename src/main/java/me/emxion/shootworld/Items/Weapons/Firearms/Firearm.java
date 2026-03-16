@@ -1,18 +1,19 @@
 package me.emxion.shootworld.Items.Weapons.Firearms;
 
 import me.emxion.shootworld.Items.Weapons.Weapon;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
+import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
 public abstract class Firearm extends Weapon {
     @Override
     public void firing(PlayerInteractEvent event) {
         Player player = event.getPlayer();
+        World world = player.getWorld();
 
         if (this.currentAmmo.get(player) == null)
             this.addPlayerCurrentAmmo(player);
@@ -24,14 +25,18 @@ public abstract class Firearm extends Weapon {
             this.breakReload(player);
 
         for (int i = 0; i < this.nbProjectile; i++) {
-            Vector playerLocation = player.getEyeLocation().getDirection();
-            Arrow arrow = player.launchProjectile(org.bukkit.entity.Arrow.class);
-            playerLocation.add(new Vector(this.getBulletSpread(this.accuracy),this.getBulletSpread(this.accuracy),this.getBulletSpread(this.accuracy)));
-            arrow.setVelocity(playerLocation.multiply(this.projectileVelocity));
+            Location playerLocation = player.getEyeLocation();
+            Vector playerDirection = playerLocation.getDirection();
+            playerDirection.add(new Vector(this.getBulletSpread(this.accuracy),this.getBulletSpread(this.accuracy),this.getBulletSpread(this.accuracy)));
 
-            arrow.setCustomName(this.name);
-            arrow.setGravity(this.hasGravity);
-            arrow.setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
+            RayTraceResult shootResult = world.rayTrace(playerLocation, playerDirection, (double) 100, FluidCollisionMode.ALWAYS, true, 0.05, p -> !player.getUniqueId().equals(p.getUniqueId()));
+            if (shootResult != null)
+                if (shootResult.getHitEntity() != null)
+                    if (shootResult.getHitEntity() instanceof LivingEntity) {
+                        LivingEntity livingEntity = (LivingEntity) shootResult.getHitEntity();
+                        livingEntity.setNoDamageTicks(0);
+                        livingEntity.damage(this.damage, player);
+                    }
         }
 
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS,this.volume, this.pitch);
@@ -46,18 +51,6 @@ public abstract class Firearm extends Weapon {
 
     @Override
     public void onHit(ProjectileHitEvent event) {
-        // detroyed on wall
-        if(!(event.getHitEntity() instanceof LivingEntity)) {
-            event.getEntity().remove();
-            return;
-        }
 
-        LivingEntity damager = (LivingEntity) event.getEntity().getShooter();
-        LivingEntity damaged = (LivingEntity) event.getHitEntity();
-
-        damaged.setNoDamageTicks(0);
-        damaged.damage(this.damage, damager);
-
-        event.setCancelled(true);
     }
 }

@@ -16,8 +16,8 @@ public class FlameThrower extends Flames{
         this.hasGravity = false;
         this.magazineSize = 20;
         this.reloadTime = 45;
-        this.accuracy = 0.33;
-        this.projectileVelocity = 0.75;
+        this.accuracy = 0.2;
+        this.projectileVelocity = 1.5;
         this.volume = 2f;
         this.pitch = 2f;
         this.timer = 10;

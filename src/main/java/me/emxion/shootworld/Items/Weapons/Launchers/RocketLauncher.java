@@ -18,7 +18,7 @@ public class RocketLauncher extends Launcher {
         this.magazineSize = 4;
         this.reloadTime = 19;
         this.accuracy = 0.0225;
-        this.projectileVelocity = 2;
+        this.projectileVelocity = 4;
         this.volume = 3.5f;
         this.pitch = 0.75f;
         this.nbProjectile = 1;

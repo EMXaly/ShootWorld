@@ -21,7 +21,7 @@ public class Shrapnel extends Launcher {
         this.magazineSize = 2;
         this.reloadTime = 50;
         this.accuracy = 0.05;
-        this.projectileVelocity = 1.25;
+        this.projectileVelocity = 2.5;
         this.volume = 2.5f;
         this.pitch = 0.85f;
         this.nbProjectile = 1;
